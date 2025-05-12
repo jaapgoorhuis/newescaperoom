@@ -325,6 +325,12 @@ img.uploaded-image {
 
 button.btn.btn-secondary.editor-buttons > a {
     color: black !important;
+    text-decoration: none;
+}
+
+button.btn.btn-secondary.editor-buttons > b > a {
+    color: black !important;
+    text-decoration: none;
 }
 
 button.btn.btn-secondary.editor-buttons > a:hover {

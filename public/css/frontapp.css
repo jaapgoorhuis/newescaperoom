@@ -131,7 +131,6 @@ button.btn.btn-primary:focus, button.btn.btn-primary:checked, button.btn.btn-pri
 }
 
 .col-12.magazine-blok {
-    position: absolute;
     background:white;
     min-height: 320px;
     margin-top: -185px;

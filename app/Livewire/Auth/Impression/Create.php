@@ -87,6 +87,7 @@ class Create extends Component
             $files = collect($this->impressionFile);
             foreach($files as $file) {
                 if(Storage::disk('tmp')->exists($file->getFileName())) {
+
                     $this->impression->addMedia($file->getRealPath())->toMediaCollection('impressions');
                 }
             }

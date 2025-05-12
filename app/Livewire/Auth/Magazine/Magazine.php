@@ -29,17 +29,20 @@ class Magazine extends Component
     use WithFilePond;
     use WithFileUploads;
 
-public function mount() {
-    $this->magazine = \App\Models\Magazine::first();
+    public function mount() {
+        $this->magazine = \App\Models\Magazine::first();
 
-    $this->settings = Setting::first();
+        $this->settings = Setting::first();
 
-    if(!$this->magazine) {
-        \App\Models\Magazine::create();
+        if(!$this->magazine) {
+            \App\Models\Magazine::create();
+        }
+
+        if($this->magazine) {
+            $this->text = $this->magazine->text;
+        }
+
     }
-
-    $this->text = $this->magazine->text;
-}
     #[On('refresh-the-component')]
     public function render()
     {
