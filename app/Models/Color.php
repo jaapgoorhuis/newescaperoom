@@ -37,7 +37,6 @@ class Color extends Model implements HasMedia
     {
         $this
             ->addMediaConversion('tumbnails')
-            ->fit(Fit::Contain, 190, 200)
             ->nonQueued();
     }
 

@@ -141,7 +141,7 @@ $pondLocalizations = __('livewire-filepond::filepond');
              console.log('doneloading');
              buttonDisabled = false
              @this.call('uploadFiles');
-             pondReset();
+
             }
         }
         function isRemovingFile(error,file){

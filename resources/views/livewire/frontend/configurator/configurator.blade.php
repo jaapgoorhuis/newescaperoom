@@ -1,16 +1,15 @@
+
 <div>
     <link rel="stylesheet" href="{{asset('/css/configurator.css')}}"/>
-    <div style="height:500px">Test div</div>
     <div class="row">
-
-
         <div class="col-12 col-sm-6 col-md-6 col-lg-8 configurator-column image-column">
             <div class="zoom-button-box">
                 <button id="btn_ZoomIn" class="zoom-button"><i class='bx bx-zoom-in'></i></button>
                 <button id="btn_ZoomOut" class="zoom-button"><i class='bx bx-zoom-out' ></i></button>
                 <button id="btn_ZoomReset" class="zoom-button"><i class='bx bx-reset' ></i></button>
             </div>
-            <div wire:loading wire:target="toggleDraairichting, setTypeDoor, setDraairichting, setDoorModel, setDoorGlass" class="wire-loading">
+
+            <div wire:loading.class="d-block" wire:target="toggleDraairichting, setTypeDoor, setDraairichting, setDoorModel, setDoorGlass"  class="display-none">
                 <div class="spinner"></div>
             </div>
 
@@ -100,7 +99,7 @@
                                                 @if($this->enkelDubbel == 'Enkele deur')
                                                     Draairichting:
                                                 @else
-                                                    Looppaneel:
+                                                    Actieve deur:
                                                     <a data-bs-toggle="modal" href="#tooltipModal2" >
                                                         <i class='bx bxs-help-circle tooltip-box'></i>
                                                     </a>
@@ -111,11 +110,11 @@
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h6>Looppaneel</h6>
+                                                            <h6>Actieve deur</h6>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                                                         </div><div class="container"></div>
                                                         <div class="tooltip-modal-body modal-body">
-                                                            Maak de keuze welke deur uw loopdeur wordt. <br/>
+                                                            Maak de keuze welke deur uw actieve loopdeur wordt. <br/>
                                                             Op deze deur wordt indien gewenst de klink en slotkast geplaatst.<br/>
                                                             De andere deur kan worden vastgezet.<br/>
                                                         </div>
@@ -196,13 +195,13 @@
                                                 <div class="selected-color-button-box2">
                                                     @if(count($this->color_choise))
                                                         @if($this->colorSampleOrDefColor == 'Definitief')
-                                                            <h6 class="selected-color-title">Geselecteerde kleur</h6>
+                                                            <p class="selected-color-title">Geselecteerde kleur</p>
                                                         @elseif($this->colorSampleOrDefColor == 'Sample')
-                                                            <h6 class="selected-color-sample">Geselecteerde kleurstalen</h6>
+                                                            <p class="selected-color-sample">Geselecteerde kleurstalen</p>
 
                                                         @endif
                                                     @else
-                                                        <h6 class="selected-no-color-title">Geen kleur geselecteerd</h6>
+                                                        <p class="selected-no-color-title">Geen kleur geselecteerd</p>
                                                     @endif
                                                     @foreach($this->color_choise as $color)
 
@@ -303,8 +302,14 @@
                                                                 @if(count($this->colors))
                                                                     @foreach($this->colors as $color)
                                                                         @if($color->getMedia('color_images')->first())
-                                                                            <div class="col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2 color-image">
-                                                                                <img class="configurator-colorcategory-tumnail @if(in_array(preg_replace('/\s+/', '', $color->title), $this->color_choise)) active @endif" wire:click="setColor('{{preg_replace('/\s+/', '', $color->title)}}')" id="{{preg_replace('/\s+/', '', $color->title)}}" src="{{$color->getMedia('color_images')->first()->getUrl('tumbnails')}}"/>
+                                                                            <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 color-image">
+                                                                                <div wire:click="setColor('{{preg_replace('/\s+/', '', $color->title)}}')" class="configurator-color-category-tumnbail @if(in_array(preg_replace('/\s+/', '', $color->title), $this->color_choise)) active @endif" id="{{preg_replace('/\s+/', '', $color->title)}}" style="background-image:url({{$color->getMedia('color_images')->first()->getUrl('tumbnails')}})">
+                                                                                    <div class="lookup-image">
+                                                                                        <a data-size="fullscreen" href="{{$color->getMedia('color_images')->first()->getUrl('tumbnails')}}" data-toggle="lightbox" class="my-lightbox-toggle">
+                                                                                            <i class='bx bx-zoom-in'></i>
+                                                                                        </a>
+                                                                                    </div>
+                                                                                </div>
                                                                                 <div class="configurator-colorcategory-tumnail-title">{{$color->title}}</div>
                                                                             </div>
                                                                         @endif
@@ -322,7 +327,11 @@
                                                                     @foreach($this->colors as $color)
                                                                         @if($color->getMedia('color_images')->first())
                                                                             <div class="col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2 color-image">
-                                                                                <img wire:click="setColor('{{preg_replace('/\s+/', '', $color->title)}}')" class="configurator-colorcategory-tumnail @if(in_array(preg_replace('/\s+/', '', $color->title), $this->color_choise)) active @endif" id="{{preg_replace('/\s+/', '', $color->title)}}" src="{{$color->getMedia('color_images')->first()->getUrl('tumbnails')}}" alt=""/>
+                                                                                <div wire:click="setColor('{{preg_replace('/\s+/', '', $color->title)}}')" class="configurator-color-category-tumnbail @if(in_array(preg_replace('/\s+/', '', $color->title), $this->color_choise)) active @endif" id="{{preg_replace('/\s+/', '', $color->title)}}" style="background-image:url({{$color->getMedia('color_images')->first()->getUrl('tumbnails')}})">
+                                                                                    <div class="lookup-image">
+                                                                                        <i class='bx bx-zoom-in'></i>
+                                                                                    </div>
+                                                                                </div>
                                                                                 <div class="configurator-colorcategory-tumnail-title">{{$color->title}}</div>
                                                                             </div>
                                                                         @endif
@@ -525,25 +534,55 @@
                     <div class="accordion-item configurator-accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button configurator-accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAssembly" aria-expanded="false" aria-controls="collapseFour">
-                                4. Montage
+                                4. Opties
                             </button>
                         </h2>
                         <div wire:ignore.self id="collapseAssembly" class="accordion-collapse collapse" data-bs-parent="#doorConfigurator">
                             <div class="accordion-body">
                                 <div class="mb-3 row">
                                     <div class="col-12 form-cols">
-                                        <label for="number-of-doors" class="col-12 col-form-label">Montage:</label>
+                                        <label for="number-of-doors" class="col-12 col-form-label">Opties:</label>
                                         <label class="montage-options">Laten inmeten (in NL, excl. waddeneilanden)
+                                            <a data-bs-toggle="modal" href="#tooltipModal4" >
+                                                <i class='bx bxs-help-circle tooltip-box'></i>
+                                            </a>
                                             <input type="checkbox" checked="checked" wire:change="setInmeten()" wire:model="inmeten">
                                             <span class="checkmark"></span>
                                         </label>
+
+                                        <div class="modal" id="tooltipModal4" style="z-index:9999" data-bs-backdrop="static">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h6>Inmeten</h6>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                                                    </div><div class="container"></div>
+                                                    <div class="tooltip-modal-body modal-body">
+                                                        Als u er voor kiest om de deur zelf in te meten is dat op eigen risico. <br/>
+                                                        Bestelde deuren kunnen niet geretourneerd worden.<br/>
+                                                        <br/>
+                                                        Indien u kiest voor de optie "laten monteren" wordt de optie "laten inmeten" automatisch aangevinkt<br/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <label class="montage-options">Laten monteren (in NL, excl. waddeneilanden)
                                             <input type="checkbox" wire:change="setMonteren()" wire:model="monteren">
+                                            <span class="checkmark"></span>
+                                        </label>
+
+                                        <label class="montage-options">Zelf monteren
+                                            <input type="checkbox" wire:change="setZelfMonteren()" wire:model="zelfMonteren">
                                             <span class="checkmark"></span>
                                         </label>
                                         @if($this->showHideBezorgen)
                                             <label class="montage-options">Laten bezorgen (in NL, excl. waddeneilanden)
                                                 <input type="checkbox" wire:change="setBezorgen()" wire:model="bezorgen">
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <label class="montage-options">Afhalen
+                                                <input type="checkbox" wire:change="setAfhalen()" wire:model="afhalen">
                                                 <span class="checkmark"></span>
                                             </label>
                                         @endif
@@ -635,14 +674,26 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="form-floating col-12">
-                                                <input wire:change="setContactDetails('land')" wire:model="land" type="text" class="form-control" id="floatingCountry" placeholder="Land *">
+                                            <div class="col-12 form-stable">
                                                 <label for="floatingCountry">Land *</label>
+                                                <select wire:change="setContactDetails('land')" wire:model="land" class="form-control">
+                                                    <option value="Nederland">Nederland</option>
+                                                    <option value="Belgie">Belgie</option>
+                                                    <option value="Duitsland">Duitsland</option>
+                                                    <option value="Luxemburg">Luxemburg</option>
+                                                </select>
                                                 @error('land')
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <div class="col-12 form-cols">
+                                        <label for="number-of-doors" class="col-12 col-form-label">Uw bericht:</label>
+                                        <textarea class="form-control" wire:change="setContactDetails('bericht')" wire:model="bericht" placeholder="bericht"></textarea>
                                     </div>
                                 </div>
 
@@ -692,7 +743,7 @@
                                                             @if($this->enkelDubbel == "Enkele deur")
                                                                 <label class="col-6  strong-label">Draairichting:</label>
                                                             @else
-                                                                <label class="col-6  strong-label">Looppaneel:</label>
+                                                                <label class="col-6  strong-label">Actieve deur:</label>
                                                             @endif
                                                             <div class="col-6">
                                                                 {{$this->draairichting}}
@@ -780,58 +831,43 @@
                                                 <label class="col-12 overview-label">4. Montage:</label>
                                                 <div class="col-12 overview-box">
                                                     <div class="row">
-                                                        <label class="col-6  strong-label">Inmeten:</label>
-                                                        <div class="col-6 ">
-                                                            @if($this->inmeten)
-                                                                Ja
-                                                            @else
-                                                                Nee
-                                                            @endif
-                                                        </div>
-
-                                                        <label class="col-6  strong-label">Monteren:</label>
-                                                        <div class="col-6 ">
-                                                            @if($this->monteren)
-                                                                Ja
-                                                            @else
-                                                                Nee
-                                                            @endif
-                                                        </div>
-                                                        @if(!$this->monteren)
-                                                            <label class="col-6  strong-label">Bezorgen:</label>
+                                                        @if($this->inmeten)
+                                                            <label class="col-6  strong-label">Inmeten:</label>
                                                             <div class="col-6 ">
-                                                                @if($this->bezorgen)
-                                                                    Ja
-                                                                @else
-                                                                    Nee
-                                                                @endif
+                                                                Ja
                                                             </div>
                                                         @endif
+
+                                                        @if($this->monteren)
+                                                            <label class="col-6  strong-label">Monteren:</label>
+                                                            <div class="col-6 ">
+                                                                Ja
+                                                            </div>
+                                                        @endif
+                                                        @if($this->zelfMonteren)
+                                                            <label class="col-6  strong-label">Zelf monteren:</label>
+                                                            <div class="col-6 ">
+                                                                Ja
+                                                            </div>
+                                                        @endif
+                                                        @if($this->bezorgen)
+                                                            <label class="col-6  strong-label">Bezorgen:</label>
+                                                            <div class="col-6 ">
+                                                                Ja
+                                                            </div>
+                                                        @endif
+
+                                                            @if($this->afhalen)
+                                                                <label class="col-6  strong-label">Afhalen:</label>
+                                                                <div class="col-6 ">
+                                                                    Ja
+                                                                </div>
+                                                            @endif
+
+
                                                     </div>
                                                 </div>
                                             </div>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3 row">
-                                    <div class="col-12">
-                                    <label class="montage-options">Ik ga akkoord met de voorwaarden
-                                        <input type="checkbox" wire:model="acceptConditions">
-                                        <span class="checkmark"></span>
-                                    </label>
-
-                                        @error('acceptConditions')
-                                        <span class="text-danger">{{ $message }}</span><br/>
-                                        @enderror
-
-                                        @if(count($errors))
-                                            @if($errors->has('voornaam') || $errors->has('achternaam') || $errors->has('email') || $errors->has('telefoon') || $errors->has('postcode') || $errors->has('straat') || $errors->has('plaats') || $errors->has('land'))
-                                                <span class="text-danger">Uw gegevens zijn niet volledig ingevuld</span><br/>
-                                            @else
-
-                                            @endif
-                                        @endif
-
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
@@ -854,23 +890,80 @@
                         </h2>
                         <div wire:ignore.self id="collapseAfronden" class="accordion-collapse collapse" data-bs-parent="#doorConfigurator">
                             <div class="accordion-body">
-
+                                <label for="number-of-doors" class="col-12 col-form-label">Betalingsvoorwaarden:</label>
                                 <div class="row">
-                                    Betalingsvoorwaarden
-                                    afronden
+                                 - U kunt de betaling vooraf levering voldoen<br/>
+                                    - Betaling bij levering<br/>
+                                </div>
+                                <br/><br/>
+                                <div class="mb-3 row">
+                                    <div class="col-12">
+                                        <label class="montage-options">Ik ga akkoord met de <a href="/voorwaarden">algemene voorwaarden</a>
+                                            <input type="checkbox" wire:model="acceptConditions">
+                                            <span class="checkmark"></span>
+                                        </label>
+
+                                        <label class="montage-options">Ik ga akkoord met de betaal voorwaarden
+                                            <input type="checkbox" wire:model="acceptPayConditions">
+                                            <span class="checkmark"></span>
+                                        </label>
+
+                                        @error('acceptConditions')
+                                       <span class="text-danger">- U dient de <a href="/voorwaarden" target="_blank">voorwaarden</a> te accepteren</span><br/>
+                                        @enderror
+
+                                        @error('acceptPayConditions')
+                                        <span class="text-danger">- U dient de bovenstaande betaal voorwaarden te accepteren</span><br/>
+                                        @enderror
+
+                                        @if(count($errors))
+                                            @if($errors->has('voornaam') || $errors->has('achternaam') || $errors->has('email') || $errors->has('telefoon') || $errors->has('postcode') || $errors->has('straat') || $errors->has('plaats') || $errors->has('land'))
+                                                <span class="text-danger">- Uw <a class="accordion-dummy-button" data-bs-toggle="collapse" data-bs-target="#collapsePersonalData" aria-expanded="false" aria-controls="collapseFive">gegevens</a> zijn niet volledig ingevuld</span><br/>
+                                            @else
+
+                                            @endif
+                                        @endif
+
+
+
+                                    </div>
                                 </div>
 
                                 <div class="mb-3 row">
                                     <div class="button-next-accordion-box col-12 form-cols">
                                         <div class="finish-buttons">
                                             <button type="button" wire:click.prevent="storeForm('offerte')" class="btn btn-configurator left-finish-accordion btn-primary" >
-                                                Offerte aanvragen
+                                                <i  wire:loading.class="d-inline-block" wire:target="storeForm" class="display-none fa fa-spinner fa-spin"></i> Offerte aanvragen
+
+
                                             </button>
-                                            <button type="button" wire:click.prevent="storeForm('bestelling')" class="btn btn-configurator right-finish-accordion btn-primary" >
-                                                Bestelling plaatsen
-                                            </button>
+                                            @if($this->land == 'Nederland')
+                                                <button type="button" wire:click.prevent="storeForm('bestelling')" class="btn btn-configurator right-finish-accordion btn-primary" >
+                                                    <i  wire:loading.class="d-inline-block" wire:target="storeForm" class="display-none fa fa-spinner fa-spin"></i>Bestelling plaatsen
+
+                                                </button>
+                                            @endif
+
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="mb-3 row">
+
+                                    @if($this->showSuccesOfferte)
+                                        <div id="succes-alert" class="alert alert-success alert-warning alert-dismissible fade show" role="alert">
+                                            De offerte wordt zo snel mogelijk naar u toegestuurd. U heeft een e-mail ontvangen met de samenvatting van uw aanvraag.
+                                            <button type="button" class="btn-close btn-close-alert-succes" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    @endif
+
+                                    @if($this->showSuccesBestelling)
+                                        <div id="succes-alert" class="alert alert-success alert-warning alert-dismissible fade show" role="alert">
+                                            De bestelling is geplaatst. U heeft een e-mail ontvangen met de samenvatting van uw bestelling.
+                                            <button type="button" class="btn-close btn-close-alert-succes" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    @endif
+
                                 </div>
                             </div>
                         </div>
@@ -884,7 +977,17 @@
 </div>
 
 <script>
+
+    Livewire.hook('morph.added',  ({ el }) => {
+        document.querySelectorAll('.my-lightbox-toggle').forEach(el => el.addEventListener('click', Lightbox.initialize));
+    });
+
+
+
     document.addEventListener( 'DOMContentLoaded', function() {
+
+
+
         const splide2 = new Splide('#door-glass-carousel', {
             start: 0,
             perPage: 3,

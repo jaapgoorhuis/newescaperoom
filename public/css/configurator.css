@@ -1,7 +1,7 @@
 :root {
-    --color-white: white;
-    --color-brown: #6F5c49;
-    --color-grey: #676767;
+    --color-white: #F7F5F3;
+    --color-brown: #676767;
+    --color-grey: #1D140C;
 }
 
 button.configurator-accordion-button {
@@ -11,6 +11,11 @@ button.configurator-accordion-button {
     color: white !important;
     border-radius: 0px !important;
 }
+
+a.accordion-dummy-button:hover {
+    cursor: pointer !important;
+}
+
 
 .configurator-column {
     margin:0;
@@ -142,10 +147,14 @@ span#align-right {
 }
 
 .configurator-colorcategory-tumnail {
-
     width: 100%;
-    height: 190px;
+    height:190px
 }
+
+.configurator-color-category-tumnbail.active {
+    border: 4px solid black;
+}
+
 
 .color-modal-back:hover {
     cursor: pointer;
@@ -223,8 +232,12 @@ i.bx.bxs-help-circle.tooltip-box {
     z-index: 1061 !important;
 }
 
+.modal.lightbox {
+    z-index: 99999;
+}
+
 .tooltip-modal-body {
-    font-size:13px;
+    font-size:16px;
 }
 
 .color-modal-header {
@@ -322,6 +335,14 @@ img.model-door-image:hover {
     margin-bottom:10px;
 }
 
+.configurator-color-category-tumnbail {
+    height: 200px;
+}
+
+.configurator-color-category-tumnbail:hover {
+    cursor: pointer;
+}
+
 @media(min-width: 576px) {
     .assembly-column {
         height: 100vh;
@@ -333,10 +354,22 @@ img.model-door-image:hover {
         height: 100vh;
     }
 }
+
+@media(min-width:768px) {
+    .configurator-color-category-tumnbail {
+        height: 300px;
+    }
+}
 @media(min-width:576px) and (max-width:991.98px) {
     .configurator-image {
         height: 100vh;
         background-position: left 54% top 50%;
+    }
+}
+
+@media (min-width: 1400px) {
+    .configurator-color-category-tumnbail {
+        height: 400px;
     }
 }
 
@@ -409,6 +442,10 @@ li.type-door-list>img.active {
     border-color:var(--color-brown);
     box-shadow: none;
 }
+.col-12.form-stable {
+    padding: 0px;
+}
+
 
 span#basic-addon2 {
     background: var(--color-grey);
@@ -590,7 +627,7 @@ ul.color-greep-list {
     border-radius: 38px;
 }
 
-.wire-loading {
+.spinner {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -606,8 +643,45 @@ ul.color-greep-list {
     z-index: 999;
 }
 
+/* Add a right margin to each icon */
+.fa {
+    margin-right: 8px;
+}
+
 @keyframes spin {
     to {
         transform: rotate(360deg);
     }
 }
+
+.configurator-text {
+    margin-top:50px;
+    margin-bottom:50px;
+}
+
+.display-none {
+    display: none;
+}
+button.accordion-dummy-button {
+    border: none;
+    background: transparent;
+    color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+    text-decoration: underline;
+    padding: 0px;
+}
+
+.lookup-image {
+    position: absolute;
+    right: 20px;
+    bottom: 38px;
+    font-size: 40px;
+    color:white;
+}
+.lookup-image>a {
+    color:white;
+}
+
+.lookup-image:hover {
+    cursor: pointer;
+}
+

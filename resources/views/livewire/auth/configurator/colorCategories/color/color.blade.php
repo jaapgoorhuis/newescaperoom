@@ -3,7 +3,7 @@
         <div class="col-md-12 admin-page-container">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <p>Kleuren -> categorie: <a class="breadcrump-item" href="/auth/configurator/colorCategories">{{$colorCategory->title}}</a> </p>
+                    <p> <a class="breadcrump-item" href="/auth/configurator/colorCategories">Kleuren </a> -> categorie -> {{$colorCategory->title}}</a> </p>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

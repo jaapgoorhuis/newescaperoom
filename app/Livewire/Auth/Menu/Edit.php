@@ -40,7 +40,7 @@ class Edit extends Component
     public function rules()
     {
         return [
-            'title' => 'required|min:2|unique:menu,title_nl,' . $this->id,
+            'title' => 'required|min:2|unique:menu,title,' . $this->id,
         ];
     }
 

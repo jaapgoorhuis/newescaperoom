@@ -1,9 +1,9 @@
-<table style="background-color:white; border:2px solid #676767; color:#676767; font-family: math" width="800" class="panel" cellpadding="0" cellspacing="0" role="presentation">
+<table style="background-color:white; border:2px solid #1D140C; color:#676767; font-family: math" width="800" class="panel" cellpadding="0" cellspacing="0" role="presentation">
     <tr>
         <td class="panel-content">
             <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
                 <tr>
-                    <td class="panel-item" style="background-color:#6E5E50;  padding:15px; color:white;" width="200">
+                    <td class="panel-item" style="background-color:#1D140C;  padding:15px; color:white;" width="200">
                         <img src="{{asset('/storage/images/logo_white.png')}}" width="65" alt="Logo Decodoors"/>
                     </td>
                 </tr>
@@ -141,10 +141,11 @@
 
 
                                 <br/>
-                                <strong>4. Montage</strong>
+                                <strong>4. Opties</strong>
                                 <hr>
 
                                 <table style="color:#676767; width: 100%; font-family: math">
+
                                     <tr>
                                         <td style="width:50%">Vakkundig laten inmeten:</td>
                                         <td>  @if($data['inmeten'])
@@ -153,19 +154,19 @@
                                                 Nee
                                             @endif</td>
                                     </tr>
-                                    <tr>
-                                        <td style="width:50%">Vakkundig laten monteren:</td>
-                                        <td>  @if($data['monteren'])
-                                                Ja
-                                            @else
-                                                Nee
-                                            @endif</td>
-                                    </tr>
-
-                                    @if(!$data['monteren'])
+                                    @if($data['monteren'])
                                         <tr>
-                                            <td style="width:50%">Snel en zorgeloos bezorgd:</td>
-                                            <td>  @if($data['bezorgen'])
+                                            <td style="width:50%">Vakkundig laten monteren:</td>
+                                            <td>  @if($data['monteren'])
+                                                    Ja
+                                                @else
+                                                    Nee
+                                                @endif</td>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td style="width:50%">Zelf monteren:</td>
+                                            <td>  @if($data['zelfMonteren'])
                                                     Ja
                                                 @else
                                                     Nee
@@ -173,8 +174,19 @@
                                             </td>
                                         </tr>
                                     @endif
-
+                                    <tr>
+                                        <td style="width:50%">Levering:</td>
+                                        <td>  @if($data['monteren'])
+                                                Bezorgen
+                                            @elseif($data['afhalen'])
+                                                Afhalen
+                                            @else
+                                                Onbekend
+                                            @endif
+                                        </td>
+                                    </tr>
                                 </table>
+
 
                                 <br/>
                                 <strong>5. Uw gegevens</strong>

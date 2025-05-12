@@ -102,6 +102,7 @@ class Edit extends Component
     public function uploadFiles() {
         if($this->color_images) {
 
+
             $files = collect($this->color_images);
             foreach($files as $file) {
                 if(Storage::disk('tmp')->exists($file->getFileName())) {

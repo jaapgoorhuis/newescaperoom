@@ -10,6 +10,7 @@ use App\Models\ColorCategory;
 use App\Models\ColorFilterValue;
 use App\Models\Filter;
 use App\Models\Page;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Validator;
@@ -25,6 +26,9 @@ class ConfiguratorController extends Component
     public $pageid;
     public $pageRoute;
     public $indexPage;
+
+    public $showSuccesOfferte;
+    public $showSuccesBestelling;
 
     //configurator variables
     public $enkelDubbel;
@@ -43,6 +47,7 @@ class ConfiguratorController extends Component
     public $greepOption;
 
     public $monteren;
+    public $zelfMonteren;
 
     public $inmeten;
 
@@ -78,7 +83,10 @@ class ConfiguratorController extends Component
     public $postcode;
     public $plaats;
     public $land;
+    public $bericht;
+
     public $acceptConditions;
+    public $acceptPayConditions;
 
     public $typeGreep;
 
@@ -94,13 +102,16 @@ class ConfiguratorController extends Component
     public $imageLinksRechts;
 
     public $imageGlas;
+    public $afhalen;
 
     public $imageTypeDeur;
+    public $settings;
 
     public function render()
     {
+        $this->dispatch('updateLigtbox');
         $this->enkelDubbel = session('enkelDubbel', 'Enkele deur');
-
+        $this->settings = Setting::first();
 
         //tab1
         $this->typeDeur = session('typeDeur', 'Taatsdeur');
@@ -143,9 +154,11 @@ class ConfiguratorController extends Component
         $this->greep = session('greep', '35cm');
 
         //tab4
-        $this->inmeten = session('inmeten', true);
+        $this->inmeten = session('inmeten', false);
         $this->monteren = session('monteren', false);
+        $this->zelfMonteren = session('zelfMonteren', true);
         $this->bezorgen = session('bezorgen', false);
+        $this->afhalen = session('afhalen', true);
 
 
         //tab5
@@ -156,12 +169,20 @@ class ConfiguratorController extends Component
         $this->straat = session('straat');
         $this->postcode = session('postcode');
         $this->plaats = session('plaats');
-        $this->land = session('land');
+        $this->land = session('land', 'Nederland');
+        $this->bericht = session('bericht');
 
         if($this->monteren) {
+            $this->inmeten = true;
             $this->showHideBezorgen = false;
         } else {
             $this->showHideBezorgen = true;
+        }
+
+        if($this->zelfMonteren) {
+            $this->showHideBezorgen = true;
+        } else {
+            $this->showHideBezorgen = false;
         }
 
         $this->imageLinksRechts = session('imageLinksRechts', 'links-');
@@ -175,8 +196,12 @@ class ConfiguratorController extends Component
 
         $this->page = Page::where('route', 'offerte-aanvragen')->first();
 
-         return view('livewire.frontend.configurator.configurator')->layout('components.layouts.frontapp');
-
+        if($this->page) {
+             $this->pageid = $this->page->id;
+            $this->pageRoute = $this->page->route;
+            $pageType = $this->page->page_type;
+                return view('livewire.frontend.index.index')->layout('components.layouts.frontapp');
+            }
     }
 
 
@@ -244,8 +269,10 @@ class ConfiguratorController extends Component
     }
 
     public function setColor($result) {
-        if(count($this->color_choise)<3) {
-            session()->push('color_choise', $result);
+        if(!in_array($result,$this->color_choise,)) {
+            if(count($this->color_choise)<3) {
+                session()->push('color_choise', $result);
+            }
         }
     }
 
@@ -342,16 +369,41 @@ class ConfiguratorController extends Component
     }
 
     public function setMonteren() {
+        if($this->zelfMonteren) {
+
+            session(['zelfMonteren' => false]);
+        }
         session(['monteren' => $this->monteren]);
         if($this->monteren) {
+            session(['inmeten' => true]);
             $this->showHideBezorgen = false;
         } else {
             $this->showHideBezorgen = true;
         }
     }
 
+    public function setZelfMonteren() {
+        if($this->monteren) {
+
+            session(['monteren' => false]);
+        }
+
+        session(['zelfMonteren' => $this->zelfMonteren]);
+    }
+
     public function setBezorgen() {
+        if($this->afhalen) {
+            session(['afhalen' => false]);
+        }
         session(['bezorgen' => $this->bezorgen]);
+    }
+
+    public function setAfhalen() {
+
+        if($this->bezorgen) {
+            session(['bezorgen' => false]);
+        }
+        session(['afhalen' => $this->afhalen]);
     }
     public function setGreepLengte() {
         if($this->greep) {
@@ -378,6 +430,7 @@ class ConfiguratorController extends Component
     }
     protected $rules = [
         'acceptConditions' => 'accepted',
+        'acceptPayConditions' => 'accepted',
         'voornaam' => 'required',
         'achternaam' => 'required',
         'email' => 'required|email',
@@ -388,6 +441,7 @@ class ConfiguratorController extends Component
         'land' => 'required',
     ];
     public function storeForm($type) {
+
         $this->validate();
 
         $array = [
@@ -405,6 +459,8 @@ class ConfiguratorController extends Component
             'inmeten' => $this->inmeten,
             'monteren' => $this->monteren,
             'bezorgen' => $this->bezorgen,
+            'zelfMonteren' => $this->zelfMonteren,
+            'afhalen' => $this->afhalen,
             'voornaam'=> $this->voornaam,
             'achternaam' => $this->achternaam,
             'email' => $this->email,
@@ -429,9 +485,22 @@ class ConfiguratorController extends Component
             ->send(new PostAdminMail($array));
 
             session()->forget(['typeDeur', 'hoogte', 'breedte', 'draairichting', 'modelDoor', 'colorSampleOrDefColor', 'color_choise',
-                'glas', 'greepOption', 'greep', 'inmeten', 'monteren', 'bezorgen', 'voornaam', 'achternaam', 'email', 'telefoon', 'straat',
-                'postcode', 'plaats', 'land', 'scharnier', 'typeGreep', 'greepColor'
+                'glas', 'greepOption', 'greep', 'inmeten', 'monteren', 'zelfMonteren', 'afhalen', 'bezorgen', 'voornaam', 'achternaam', 'email', 'telefoon', 'straat','bericht',
+                'postcode', 'plaats', 'land', 'scharnier', 'typeGreep', 'greepColor', 'acceptedConditions', 'acceptedPayConditions'
             ]);
+
+        $this->acceptConditions = false;
+        $this->acceptPayConditions = false;
+
+        if($type == 'offerte') {
+            $this->showSuccesOfferte = true;
+            $this->showSuccesBestelling = false;
+        } else if ($type == 'bestelling') {
+            $this->showSuccesBestelling = true;
+            $this->showSuccesOfferte = false;
+        }
+
+
     }
 
 

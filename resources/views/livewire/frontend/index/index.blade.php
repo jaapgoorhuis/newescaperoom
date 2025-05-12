@@ -1,6 +1,5 @@
 
 <div>
-
     <div class="page">
         @auth
             <div class="row add-block-row">
@@ -93,6 +92,22 @@
                                                     Impressie blok
                                                 </label>
                                             </div>
+
+                                            <div class="col-6 block-item-type" onclick="setBlockItemType(this)" id="review-block-item">
+                                                <label class="block-item-type-label">
+                                                    <input type="radio" name="blockItemType" value="review"/>
+                                                    <i class='bx bx-message-dots'></i><br/>
+                                                    Review blok
+                                                </label>
+                                            </div>
+
+                                            <div class="col-6 block-item-type" onclick="setBlockItemType(this)" id="contact-block-item">
+                                                <label class="block-item-type-label">
+                                                    <input type="radio" name="blockItemType" value="contact"/>
+                                                    <i class='bx bxs-contact' ></i><br/>
+                                                    Contact blok
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="error-message select-block-item hidden">
@@ -128,7 +143,11 @@
                                                             <div class="accordion-body">
                                                                 <div class="mb-3">
                                                                     <label for="edit-column-color" class="form-label">Achtergrondkleur bewerken</label>
+                                                                    <br/><Br/>
+                                                                    Template kleuren:<br/> #1D140C (donker)<br/>#F7F5F3 (licht)<br/><br/>
                                                                     <input type="color" class="form-control form-control-color" id="edit-column-color" title="Kies een kleur">
+                                                                    <br/>
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -276,8 +295,12 @@
                                                         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                                             <div class="accordion-body">
                                                                 <div class="mb-3">
-                                                                    <label for="edit-column-color" class="form-label">Achtergrondkleur bewerken</label>
-                                                                    <input type="color" class="form-control form-control-color" id="edit-parent-column-color" title="Kies een kleur">
+                                                                    <label for="edit-column-color" class="form-label">Achtergrondkleur bewerken</label><br/>
+                                                                    <br/>
+                                                                    Template kleuren:<br/> #1D140C (donker)<br/>#F7F5F3 (licht)<br/><br/>
+
+                                                                    <input type="color" class="form-control form-control-color" id="edit-parent-column-color" value="#f7f5f3" title="Kies een kleur">
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -409,6 +432,8 @@
                 </div>
             </div>
             <div id="impression-placeholder" class="hidden"></div>
+            <div id="review-placeholder" class="hidden"></div>
+            <div id="contact-placeholder" class="hidden"></div>
         @endauth
 
         @include('livewire.frontend.components.menu')
@@ -420,50 +445,190 @@
                 @endif
             @endforeach
 
+
             @if(!$this->pageid)
                 @foreach(\App\Models\PageBlock::where('page_id', $this->indexPage->id)->orderBy('order_id', 'asc')->get() as $pageblocks)
                     {!! $pageblocks->value !!}
                 @endforeach
             @endif
-
-            @include('livewire.frontend.components.footer')
-
-
         </div>
+            @if($this->page->route !== 'offerte-aanvragen')
+                @include('livewire.frontend.components.footer')
+                @else
+                @include('livewire.frontend.configurator.configurator')
+            @endif
     </div>
 </div>
 <script type="text/javascript">
 
     //load blocks
 
+    var addButton = function (context) {
+        var ui = $.summernote.ui;
+
+        // create button
+        var button = ui.button({
+            contents: '<i class="fa-solid fa-square-plus" />',
+            tooltip: 'addbutton',
+            click: function () {
+                // invoke insertText method with 'hello' on editor module.
+
+                context.invoke('editor.pasteHTML', '<button class="btn btn-secondary editor-buttons">Button</button>');                }
+        });
+
+        return button.render(); // return button as jquery object
+    }
+
+    var addFacebook = function (context) {
+        var ui = $.summernote.ui;
+
+        // create button
+        var faceBook = ui.button({
+            contents: '<i class="fa-brands fa-facebook-f" style="color:#F7F5F3"></i>',
+            tooltip: 'addbutton',
+            click: function () {
+                // invoke insertText method with 'hello' on editor module.
+                context.invoke('editor.pasteHTML', '<a href="{{$this->settings->facebook}}"><img src="{{asset('/storage/images/frontend/uploads/facebook.svg')}}" class="facebook-icon" alt="facebook"/></a>');
+
+            }
+        });
+
+        return faceBook.render(); // return button as jquery object
+    }
+
+    var addInsta = function (context) {
+        var ui = $.summernote.ui;
+
+        // create button
+        var insta = ui.button({
+            contents: '<i class="fa-brands fa-instagram" style="color:#F7F5F3"></i>',
+            tooltip: 'addbutton',
+            click: function () {
+                // invoke insertText method with 'hello' on editor module.
+                context.invoke('editor.pasteHTML', '<a href="{{$this->settings->instagram}}"><img src="{{asset('/storage/images/frontend/uploads/instagram.svg')}}" class="facebook-icon" alt="instagram"/></a>');
+
+            }
+        });
+
+        return insta.render(); // return button as jquery object
+    }
+
+    var addLinkedIn = function (context) {
+        var ui = $.summernote.ui;
+
+        // create button
+        var linkedin = ui.button({
+            contents: '<i class="fa-brands fa-linkedin-in" style="color:#F7F5F3"></i>',
+            tooltip: 'addbutton',
+            click: function () {
+                // invoke insertText method with 'hello' on editor module.
+                context.invoke('editor.pasteHTML', '<a href="{{$this->settings->linkedin}}"><img src="{{asset('/storage/images/frontend/uploads/linkedin.svg')}}" class="facebook-icon" alt="linkedin"/></a>');
+
+            }
+        });
+
+        return linkedin.render(); // return button as jquery object
+    }
+
+
+    var addFacebookDark = function (context) {
+        var ui = $.summernote.ui;
+
+        // create button
+        var faceBook = ui.button({
+            contents: '<i class="fa-brands fa-facebook-f" style="color:#1d140c"></i>',
+            tooltip: 'addbutton',
+            click: function () {
+                // invoke insertText method with 'hello' on editor module.
+                context.invoke('editor.pasteHTML', '<a href="{{$this->settings->facebook}}"><img src="{{asset('/storage/images/frontend/uploads/facebookDark.svg')}}" class="facebook-icon" alt="facebook"/></a>');
+
+            }
+        });
+
+        return faceBook.render(); // return button as jquery object
+    }
+
+    var addInstaDark = function (context) {
+        var ui = $.summernote.ui;
+
+        // create button
+        var insta = ui.button({
+            contents: '<i class="fa-brands fa-instagram" style="color:#1d140c"></i>',
+            tooltip: 'addbutton',
+            click: function () {
+                // invoke insertText method with 'hello' on editor module.
+                context.invoke('editor.pasteHTML', '<a href="{{$this->settings->instagram}}"><img src="{{asset('/storage/images/frontend/uploads/instagramDark.svg')}}" class="facebook-icon" alt="instagram"/></a>');
+
+            }
+        });
+
+        return insta.render(); // return button as jquery object
+    }
+
+    var addLinkedInDark = function (context) {
+        var ui = $.summernote.ui;
+
+        // create button
+        var linkedin = ui.button({
+            contents: '<i class="fa-brands fa-linkedin-in" style="color:#1d140c"></i>',
+            tooltip: 'addbutton',
+            click: function () {
+                // invoke insertText method with 'hello' on editor module.
+                context.invoke('editor.pasteHTML', '<a href="{{$this->settings->linkedin}}"><img src="{{asset('/storage/images/frontend/uploads/linkedinDark.svg')}}" class="facebook-icon" alt="linkedin"/></a>');
+
+            }
+        });
+
+        return linkedin.render(); // return button as jquery object
+    }
+
     let blockImpressions = jQuery('.block-impressions');
     jQuery.each(blockImpressions, function (key, value) {
         jQuery('#'+value.id).load('impressions');
     });
 
+    let blockReviews = jQuery('.block-reviews');
+    jQuery.each(blockReviews, function (key, value) {
+        jQuery('#'+value.id).load('reviews');
+    });
+
+    let contactForms = jQuery('.block-contact-form');
+    jQuery.each(contactForms, function (key, value) {
+        jQuery('#'+value.id).load('contactForm');
+    });
+
+
+
+
     jQuery('#edit-slider-text').summernote({
-        placeholder: 'Hello stand alone ui',
         tabsize: 2,
-        height: 120,
+        height:150,
         toolbar: [
-            ['style', ['style']],
+
             ['addbutton', ['addbutton']],
+            ['addFacebook', ['addFacebook']],
+            ['addLinkedIn', ['addLinkedIn']],
+            ['addInsta', ['addInsta']],
+
+            ['addFacebookDark', ['addFacebookDark']],
+            ['addLinkedInDark', ['addLinkedInDark']],
+            ['addInstaDark', ['addInstaDark']],
             ['font', ['bold', 'underline', 'clear']],
             ['color', ['color']],
             ['para', ['ul', 'ol', 'paragraph']],
             ['table', ['table']],
             ['insert', ['link', 'picture', 'video']],
-            ['view', ['fullscreen', 'codeview', 'help']]
+            ['view', ['fullscreen', 'codeview', 'help']],
+            ['style', ['style']],
         ],
         buttons: {
-            addbutton: addButton
-        },
-        imageAttributes: {
-            icon: '<i class="note-icon-pencil"/>',
-            figureClass: 'figureClass',
-            figcaptionClass: 'captionClass',
-            captionText: 'Caption Goes Here.',
-            manageAspectRatio: true // true = Lock the Image Width/Height, Default to true
+            addbutton: addButton,
+            addFacebook: addFacebook,
+            addLinkedIn: addLinkedIn,
+            addInsta: addInsta,
+            addFacebookDark: addFacebookDark,
+            addLinkedInDark: addLinkedInDark,
+            addInstaDark: addInstaDark
         },
         lang: 'NL',
         popover: {
@@ -619,21 +784,34 @@
                 jQuery('#' + columnId).append('<div class="block-texteditor block-value" id="block-' + randomIds + '"></div>');
                 jQuery('#add-block-item-modal').modal('hide');
                 jQuery('#block-' + randomIds).summernote({
-                    placeholder: 'Hello stand alone ui',
                     tabsize: 2,
-                    height: 120,
+                    height:150,
                     toolbar: [
-                        ['style', ['style']],
+
                         ['addbutton', ['addbutton']],
+                        ['addFacebook', ['addFacebook']],
+                        ['addLinkedIn', ['addLinkedIn']],
+                        ['addInsta', ['addInsta']],
+
+                        ['addFacebookDark', ['addFacebookDark']],
+                        ['addLinkedInDark', ['addLinkedInDark']],
+                        ['addInstaDark', ['addInstaDark']],
                         ['font', ['bold', 'underline', 'clear']],
                         ['color', ['color']],
                         ['para', ['ul', 'ol', 'paragraph']],
                         ['table', ['table']],
                         ['insert', ['link', 'picture', 'video']],
-                        ['view', ['fullscreen', 'codeview', 'help']]
+                        ['view', ['fullscreen', 'codeview', 'help']],
+                        ['style', ['style']],
                     ],
                     buttons: {
-                        addbutton: addButton
+                        addbutton: addButton,
+                        addFacebook: addFacebook,
+                        addLinkedIn: addLinkedIn,
+                        addInsta: addInsta,
+                        addFacebookDark: addFacebookDark,
+                        addLinkedInDark: addLinkedInDark,
+                        addInstaDark: addInstaDark
                     },
                     imageAttributes: {
                         icon: '<i class="note-icon-pencil"/>',
@@ -663,16 +841,30 @@
                     '</div>');
 
             } else if(selectedBlockItem === 'slider') {
-
+                jQuery('.add-block-item').remove();
                 jQuery('#' + columnId).append('<div class="block-slider block-value" id="block-' + randomIds + '">' +
                     '<input class="upload-file" id="imgInp-' + randomIds + '" type="file" onchange="previewSliderFile(this)" accept="image/png, image/jpeg, image/jpg" />' +
                     '<div class="slider-image" id="custom-slider-'+randomIds+'">'+
                     '<div class="container"></div>'+
+                    '</div>'+
                     '</div>');
 
             } else if(selectedBlockItem === 'impression') {
+                jQuery('.add-block-item').remove();
                 jQuery('#' + columnId).append('<div class="block-impressions block-value" id="block-' + randomIds + '"></div>');
                 jQuery('#block-' + randomIds).load('impressions');
+            }
+
+            else if(selectedBlockItem === 'review') {
+                jQuery('.add-block-item').remove();
+                jQuery('#' + columnId).append('<div class="block-reviews block-value" id="block-' + randomIds + '"></div>');
+                jQuery('#block-' + randomIds).load('reviews');
+            }
+
+            else if(selectedBlockItem === 'contact') {
+                jQuery('.add-block-item').remove();
+                jQuery('#' + columnId).append('<div class="block-contact-form block-value" id="block-' + randomIds + '"></div>');
+                jQuery('#block-' + randomIds).load('contactForm');
             }
 
 
@@ -709,6 +901,8 @@
         }
 
     let impressions = jQuery('#impression-placeholder').load('impressions');
+    let reviews = jQuery('#review-placeholder').load('reviews');
+    let contactForm = jQuery('#contact-placeholder').load('contactForm');
 
         function saveBlocksToDatabase() {
             const arr = [];
@@ -722,13 +916,13 @@
                 let id = jQuery(element).attr('id');
                 console.log(element);
 
-
                 if(id !== undefined) {
                     let filteredId = id.replace('full-width-box-', '');
                     blockId.push(filteredId);
 
                     let containerStyle = jQuery('#container-' + filteredId).attr('style');
                     let fullWidthBoxStyle = jQuery('#full-width-box-' + filteredId).attr('style');
+
 
                     let child = jQuery(element).find('div.added-block-row').attr('id');
                     let html = '<div class="full-width-box" wire:sortable.item="' + filteredId + '" wire:key="' + filteredId + '" id="full-width-box-' + filteredId + '" style="' + fullWidthBoxStyle + '"> <div class="container row-container" id="container-' + filteredId + '" style="' + containerStyle + '">';
@@ -747,13 +941,16 @@
                             jQuery('#' + blockValueId).css('display', 'block');
                             let id2 = jQuery(element2).attr('id');
 
-                            let style = jQuery('#block-' + id2).attr('style');
+                            let style = jQuery('#' + blockValueId).attr('style');
 
                             if (!style) {
                                 style = '';
                             }
 
                             let imageId = jQuery('#' + blockValueId).find('.upload-file').attr('id');
+
+
+
 
                             let textareaValue = jQuery('#' + textareaId).summernote('code');
 
@@ -770,30 +967,35 @@
                             let editedText = textareaValue;
                             jQuery('#' + imageId).remove();
 
+
+
                             let oldText = jQuery('#' + id2).find('div.block-texteditor').html();
                             html += '<div class="' + classname2 + '" style="' + styleAddedColumn + '" id="' + id2 + '">';
+                            html += "<div class='edit-columns-row' onclick='editColumn(this)'><i class='edit-columns-row-icon bx bx-edit'></i></div>";
                             if (oldText) {
                                 if (textareaValue instanceof jQuery) {
                                     textareaValue = oldText;
                                 }
+                                html += '<div class="block-texteditor block-value" style="' + style + '"  id="block-' + id2 + '">' + textareaValue + '</div>';
                                 html += "<div class='edit-block' onclick='editBlock(this)' id='edit-block-" + id2 + "'><i  class='edit-block-icon bx bx-edit'></i></div>";
                                 html += "<div class='cancel-block' onclick='removeblock(this)' id='edit-block-" + id2 + "'><i  class='remove-block-icon bx bx-trash'></i></div>";
-                                html += '<div class="block-texteditor block-value" style="' + style + '"  id="block-' + id2 + '">' + textareaValue + '</div>';
+
                             } else if (textareaId) {
+
                                 if (editedText) {
+                                    html += '<div class="block-texteditor block-value" style="' + style + '"  id="block-' + id2 + '">' + editedText + '</div>';
                                     html += "<div class='edit-block' onclick='editBlock(this)' id='edit-block-" + id2 + "'><i  class='edit-block-icon bx bx-edit'></i></div>";
                                     html += "<div class='cancel-block' onclick='removeblock(this)' id='edit-block-" + id2 + "'><i  class='remove-block-icon bx bx-trash'></i></div>";
-                                    html += '<div class="block-texteditor block-value" style="' + style + '"  id="block-' + id2 + '">' + editedText + '</div>';
+
                                 }
                             }
 
-                            if (blockValueClass.includes('block-impressions')) {
-                                html += '<div class="block-impressions block-value" style="' + style + '"  id="block-' + id2 + '">';
-                                html += '</div>';
-                            } else if (imageId) {
+                            else if (imageId) {
+                                html += '<div class="' + blockValueClass + '" style="' + style + '"  id="block-' + id2 + '">';
+
                                 html += "<div class='edit-block' onclick='editBlock(this)' id='edit-block-" + id2 + "'><i  class='edit-block-icon bx bx-edit'></i></div>";
                                 html += "<div class='cancel-block' onclick='removeblock(this)' id='edit-block-" + id2 + "'><i  class='remove-block-icon bx bx-trash'></i></div>";
-                                html += '<div class="' + blockValueClass + '" style="' + style + '"  id="block-' + id2 + '">';
+
                                 let customClass;
 
                                 if (blockValueClass !== undefined) {
@@ -805,14 +1007,17 @@
                                     }
                                 }
 
-
                                 if (customClass) {
                                     if (customClass.includes('slider-image')) {
-                                        let container = jQuery('#' + blockValueId).find('div.slider-container').html();
+                                        let container = jQuery('#' + blockValueId).find('div.slider-text').html();
+
+                                        if(container === undefined) {
+                                            container = '';
+                                        }
 
                                         html += '<div class="previewImg ' + customClass + '" id="preview-image-' + id2 + '" style="background-image: url(/storage/images/frontend/uploads/' + imageName + ')">';
-                                        html += '<div class="container slider-container"><div class="slider-text">' + container + '</div></div>';
-                                        html += '</div>';
+                                        html += '<div class="container slider-container"><div class="slider-text">' + container + '</div></div></div>';
+
                                     }
                                     if (customClass.includes('preview-image')) {
                                         html += '<img id="preview-image-' + id2 + '" class="previewImg" src="{{asset('storage/images/frontend/uploads/')}}/' + imageName + '">'
@@ -820,17 +1025,38 @@
                                 }
 
                                 html += '</div>';
-                            } else if (!imageId && blockValue && !blockValueClass.includes('block-impressions')) {
+                            }
 
+
+                            else if (!imageId && blockValue && !blockValueClass.includes('block-impressions') && !blockValueClass.includes('block-reviews')&& !blockValueClass.includes('block-contact-form')) {
+                                html += '<div class="' + blockValueClass + '" style="' + style + '"  id="block-' + id2 + '">' + blockValue + '</div>';
                                 html += "<div class='edit-block' onclick='editBlock(this)' id='edit-block-" + id2 + "'><i  class='edit-block-icon bx bx-edit'></i></div>";
                                 html += "<div class='cancel-block' onclick='removeblock(this)' id='edit-block-" + id2 + "'><i  class='remove-block-icon bx bx-trash'></i></div>";
-                                html += '<div class="' + blockValueClass + '" style="' + style + '"  id="block-' + id2 + '">' + blockValue + '</div>';
 
-                            } else {
+
+                            }
+                            else if(blockValueClass !== undefined && !imageId) {
+                                if (blockValueClass.includes('block-impressions')) {
+                                    html += '<div class="block-impressions block-value" style="' + style + '"  id="block-' + id2 + '">';
+                                    html += '</div>';
+                                }
+
+                                if (blockValueClass.includes('block-reviews')) {
+                                    html += '<div class="block-reviews block-value" style="' + style + '"  id="block-' + id2 + '">';
+                                    html += '</div>';
+                                }
+
+                                if (blockValueClass.includes('block-contact-form')) {
+                                    html += '<div class="block-contact-form block-value" style="' + style + '"  id="block-' + id2 + '">';
+                                    html += '</div>';
+                                }
+                            }
+
+                            else {
 
                                 html += "<i class='bx bx-plus add-block-item' onClick='addBlockItem(this)'></i>";
                             }
-                            html += "<div class='edit-columns-row' onclick='editColumn(this)'><i class='edit-columns-row-icon bx bx-edit'></i></div>";
+
                             html += '</div>';
                         }
                     });
@@ -872,6 +1098,9 @@
 
                     }
                 });
+
+                console.log(files);
+
 
                 if (files.length > 0) {
                     console.log(files);
@@ -916,21 +1145,33 @@
                 parentSelector.find('div.note-editor').removeClass('hidden');
 
                 jQuery('#' + blockid).summernote({
-                    placeholder: 'Hello stand alone ui',
                     tabsize: 2,
-                    height: 120,
+                    height:150,
                     toolbar: [
+
                         ['addbutton', ['addbutton']],
-                        ['style', ['style']],
+                        ['addFacebook', ['addFacebook']],
+                        ['addLinkedIn', ['addLinkedIn']],
+                        ['addInsta', ['addInsta']],
+                        ['addFacebookDark', ['addFacebookDark']],
+                        ['addLinkedInDark', ['addLinkedInDark']],
+                        ['addInstaDark', ['addInstaDark']],
                         ['font', ['bold', 'underline', 'clear']],
                         ['color', ['color']],
                         ['para', ['ul', 'ol', 'paragraph']],
                         ['table', ['table']],
                         ['insert', ['link', 'picture', 'video']],
-                        ['view', ['fullscreen', 'codeview', 'help']]
+                        ['view', ['fullscreen', 'codeview', 'help']],
+                        ['style', ['style']],
                     ],
                     buttons: {
-                        addbutton: addButton
+                        addbutton: addButton,
+                        addFacebook: addFacebook,
+                        addLinkedIn: addLinkedIn,
+                        addInsta: addInsta,
+                        addFacebookDark: addFacebookDark,
+                        addLinkedInDark: addLinkedInDark,
+                        addInstaDark: addInstaDark
                     },
                     imageAttributes: {
                         icon: '<i class="note-icon-pencil"/>',
@@ -961,11 +1202,18 @@
             }
 
             if(typeBlock.includes("slider")) {
-                let slidercontainer = jQuery('#'+blockid).find('div.slider-container').html();
+
+                let slidercontainer = jQuery('#'+blockid).find('div.slider-text').html();
+
+
+
+                selector.html('');
+
+
                 jQuery('#' + blockid).html('' +
                     '<input class="upload-file" id="imgInp-' + randomIds + '" style="margin-bottom: 30px; margin-top: 30px;" type="file" onChange="previewSliderFile(this)" accept="image/png, image/jpeg, image/jpg" />' +
                      '<div class="slider-image" id="custom-slider-'+randomIds+'">'+
-                    '<div class="container slider-container">'+slidercontainer+'</div>'+
+                    '<div class="container slider-container"><div class="slider-text">'+slidercontainer+'</div></div>'+
                     '</div>');
 
             }
@@ -1003,75 +1251,102 @@
         function editColumn(e) {
 
             jQuery('#edit-column-modal').modal('show');
-            let columnId = jQuery(e).parent('div').attr('id');
 
-            let blockClass = jQuery('#'+columnId).find('div.block-value').attr('class');
+            let columnId = jQuery(e).next('div').attr('id');
 
-            if(blockClass.includes('block-slider')) {
-                jQuery('.slider-accordion-item').removeClass('hidden');
-                let sliderText = jQuery('#block-' + columnId).find('div.slider-text').html();
+            let blockClass = jQuery(e).next('div').attr('class');
 
-                jQuery('#edit-slider-text').summernote('code', sliderText);
 
-            } else {
-                jQuery('.slider-accordion-item').addClass('hidden');
+            if(blockClass !== undefined)
+            {
+                if (blockClass.includes('block-slider')) {
+                    jQuery('.slider-accordion-item').removeClass('hidden');
+                    let sliderText = jQuery('#block-' + columnId).find('div.slider-text').html();
+
+                    jQuery('#edit-slider-text').summernote('code', sliderText);
+
+                } else {
+                    jQuery('.slider-accordion-item').addClass('hidden');
+                }
             }
 
-            let existingColor = jQuery('#block-' + columnId).css('background-color');
-
-            let padding = jQuery('#block-' + columnId).css('padding');
-
-            let marginTop = jQuery('#block-' + columnId).css('margin-top');
-            let marginLeft = jQuery('#block-' + columnId).css('margin-left');
-            let marginBottom = jQuery('#block-' + columnId).css('margin-bottom');
-            let marginRight = jQuery('#block-' + columnId).css('margin-right');
+            let existingColor = jQuery('#' + columnId).css('background-color');
 
 
-            let hex = rgb2hex(existingColor);
 
-            //set existing values
-            if (hex !== '#000000') {
+            let padding = jQuery('#' + columnId).css('padding');
 
-                jQuery('input#edit-column-color').val(hex);
-            } else {
-                jQuery('input#edit-column-color').val('#FFFFFF');
+            let marginTop = jQuery('#' + columnId).css('margin-top');
+            let marginLeft = jQuery('#' + columnId).css('margin-left');
+            let marginBottom = jQuery('#' + columnId).css('margin-bottom');
+            let marginRight = jQuery('#' + columnId).css('margin-right');
+
+
+
+
+            if(existingColor !== undefined) {
+                let hex = rgb2hex(existingColor);
+                //set existing values
+                if (hex !== '#000000') {
+
+                    jQuery('input#edit-column-color').val(hex);
+                } else {
+                    jQuery('input#edit-column-color').val('#f7f5f3');
+                }
+            }else {
+                jQuery('input#edit-column-color').val('#f7f5f3');
             }
-            jQuery('input#edit-column-padding').val(padding.substring(0, padding.length - 2));
-            jQuery('input#edit-column-margin-left').val(marginLeft.substring(0, marginLeft.length - 2));
-            jQuery('input#edit-column-margin-right').val(marginRight.substring(0, marginRight.length - 2));
-            jQuery('input#edit-column-margin-top').val(marginTop.substring(0, marginTop.length - 2));
-            jQuery('input#edit-column-margin-bottom').val(marginBottom.substring(0, marginBottom.length - 2));
+
+            if(padding !== undefined) {
+                jQuery('input#edit-column-padding').val(padding.substring(0, padding.length - 2));
+            }
+             if(marginLeft !== undefined) {
+                 jQuery('input#edit-column-margin-left').val(marginLeft.substring(0, marginLeft.length - 2));
+             }
+            if(marginRight !== undefined) {
+                jQuery('input#edit-column-margin-right').val(marginRight.substring(0, marginRight.length - 2));
+            }
+            if(marginTop !== undefined) {
+                jQuery('input#edit-column-margin-top').val(marginTop.substring(0, marginTop.length - 2));
+            }
+            if(marginBottom !== undefined) {
+                jQuery('input#edit-column-margin-bottom').val(marginBottom.substring(0, marginBottom.length - 2));
+            }
             editId = columnId;
         }
 
         function saveEditedColumn() {
+
             let backgroundColor = jQuery('#edit-column-color').val();
             let padding = jQuery('#edit-column-padding').val();
+
             let marginLeft = jQuery('#edit-column-margin-left').val();
             let marginRight = jQuery('#edit-column-margin-right').val();
             let marginTop = jQuery('#edit-column-margin-top').val();
             let marginBottom = jQuery('#edit-column-margin-bottom').val();
             let sliderText = jQuery('#edit-slider-text').val();
 
+
             if(sliderText) {
-                jQuery('#block-' + editId).find('div.slider-text').html(sliderText);
+                jQuery('#' + editId).find('div.slider-text').html(sliderText);
             }
 
             if (backgroundColor) {
-                jQuery('#block-' + editId).attr('style', 'background-color:' + backgroundColor);
+                jQuery('#' + editId).attr('style', 'background-color:' + backgroundColor);
             }
 
 
             if (padding) {
-                jQuery('#block-' + editId).css('padding', padding + 'px');
+                jQuery('#' + editId).css('padding', padding + 'px');
             }
 
-            jQuery('#block-' + editId).css('margin-left', marginLeft + 'px');
-            jQuery('#block-' + editId).css('margin-right', marginRight + 'px');
-            jQuery('#block-' + editId).css('margin-top', marginTop + 'px');
-            jQuery('#block-' + editId).css('margin-bottom', marginBottom + 'px');
 
-            jQuery('#block-' + editId).css('padding', padding + 'px');
+            jQuery('#' + editId).css('margin-left', marginLeft + 'px');
+            jQuery('#' + editId).css('margin-right', marginRight + 'px');
+            jQuery('#' + editId).css('margin-top', marginTop + 'px');
+            jQuery('#' + editId).css('margin-bottom', marginBottom + 'px');
+
+            jQuery('#' + editId).css('padding', padding + 'px');
 
             jQuery('#edit-column-modal').modal('hide');
         }
@@ -1090,8 +1365,12 @@
         function editColumnRow(e) {
             editParentColumnId = jQuery(e).attr('id');
 
+
             jQuery('#edit-parent-column-modal').modal('show');
             let existingColumnColor = jQuery('#full-width-box-' + editParentColumnId).css('background-color');
+
+            console.log(existingColumnColor);
+
             let padding = jQuery('#container-' + editParentColumnId).css('padding');
 
             let breedte = jQuery('#full-width-box-' + editParentColumnId).css('max-width');
@@ -1102,11 +1381,20 @@
             let marginRight = jQuery('#full-width-box-' + editParentColumnId).css('margin-right');
             let innerBreedte = jQuery('#container-' + editParentColumnId).css('max-width');
 
+
+
             if (existingColumnColor !== undefined) {
                 let hex = rgb2hex(existingColumnColor);
-                jQuery('input#edit-parent-column-color').val(hex);
+
+                if (hex !== '#000000') {
+
+                    jQuery('input#edit-parent-column-color').val(hex);
+                } else {
+                    jQuery('input#edit-parent-column-color').val('#f7f5f3');
+                }
+            }else {
+                jQuery('input#edit-parent-column-color').val('#f7f5f3');
             }
-            //set existing values
 
 
             if (padding !== undefined) {
@@ -1170,6 +1458,7 @@
             }
 
             let fullBoxSelector = jQuery('#full-width-box-' + editParentColumnId);
+
 
             fullBoxSelector.css('margin-left', marginLeft + 'px');
             fullBoxSelector.css('margin-right', marginRight + 'px');

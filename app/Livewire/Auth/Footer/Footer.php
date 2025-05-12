@@ -98,7 +98,6 @@ class Footer extends Component
 
     public function update(Request $request) {
 
-//        $this->validate($this->rules());
         for($i =1; $i <5; $i++) {
             $indicater = 'type_column_'.$i;
             $column = 'column_'.$i;

@@ -24,21 +24,7 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="form-group mb-3">
-                                <label for="route">Type pagina:</label><br/>
-                                <small class="sub-label-admin">Is de pagina een vervolgpagina of een projecten pagina</small>
-                                <select wire:model.live="page_type" class="form-control">
-                                    @if(\Illuminate\Support\Facades\Auth::user()->role_id >= 3)
-                                        <option value="index">Home pagina</option>
-                                        <option value="configurator">Offerte pagina</option>
-                                        <option value="contact">Contact pagina</option>
-                                    @endif
-                                    <option value="followUp">Normale vervolg pagina</option>
-                                </select>
-                                @error('page_type')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+
                         </div>
                         <br/>
                         <hr class="rounded">
@@ -70,18 +56,6 @@
                                     @enderror
                                 </div>
                             @endif
-
-                            <div class="form-group mb-3">
-                                <label for="show_header">Header zichtbaar op pagina:</label><br/>
-                                <small class="sub-label-admin">Voeg de header toe aan de pagina.</small>
-                                <select wire:model.live="show_header" class="form-control">
-                                    <option value="1" wire:selected>Ja</option>
-                                    <option value="0">Nee</option>
-                                </select>
-                                @error('show_header')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
 
                             <div class="form-group mb-3">
                                 <label for="show_footer">Footer zichtbaar op pagina:</label><br/>

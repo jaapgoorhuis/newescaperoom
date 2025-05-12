@@ -1,10 +1,10 @@
 <?php $footerItem = \App\Models\Footer::first();?>
-<div class="footer-box" @if($footerItem->show_magazine == '1') style="height:770px; margin-top:220px;" @endif>
+<div class="footer-box" @if($footerItem->show_magazine == '1') style="min-height:770px; margin-top:200px;" @endif>
     @if($footerItem->show_magazine == '1')
     <div class="container magazine-container">
         <div class="row magazine-row">
             <div class="col-12 magazine-blok">
-                Magazine jongee
+                @include('livewire.frontend.components.magazine')
             </div>
         </div>
     </div>

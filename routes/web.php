@@ -34,6 +34,7 @@ Route::get('auth/impressions/delete/{id}', \App\Livewire\Auth\Impression\Delete:
 Route::get('auth/footer', \App\Livewire\Auth\Footer\Footer::class)->middleware('auth');
 
 Route::get('auth/magazine', \App\Livewire\Auth\Magazine\Magazine::class)->middleware('auth');
+Route::get('auth/settings', \App\Livewire\Auth\Setting\Setting::class)->middleware('auth');
 //configurator kleuren
 Route::get('auth/configurator/colorCategories', \App\Livewire\Auth\Configurator\ColorCategory\ColorCategory::class)->middleware('auth');
 Route::get('auth/configurator/colorCategories/create', \App\Livewire\Auth\Configurator\ColorCategory\Create::class)->middleware('auth');
@@ -46,6 +47,12 @@ Route::get('auth/configurator/colorCategories/{id}/color/edit/{slug}', \App\Live
 Route::get('auth/configurator/colorCategories/{id}/color/delete/{slug}', \App\Livewire\Auth\Configurator\ColorCategory\Color\Delete::class)->middleware('auth');
 
 
+Route::get('auth/reviews', \App\Livewire\Auth\Review\Review::class)->middleware('auth');
+Route::get('auth/reviews/create', \App\Livewire\Auth\Review\Create::class)->middleware('auth');
+Route::get('auth/reviews/edit/{id}', \App\Livewire\Auth\Review\Edit::class)->middleware('auth');
+Route::get('auth/reviews/delete/{id}', \App\Livewire\Auth\Review\Delete::class)->middleware('auth');
+
+
 Route::get('auth/account', \App\Livewire\Auth\Account\Account::class)->middleware('auth');
 
 
@@ -54,6 +61,13 @@ route::get('impressions', function() {
     return view('livewire.frontend.blockcomponents.impressions');
 });
 
+route::get('reviews', function() {
+    return view('livewire.frontend.blockcomponents.reviews');
+});
+
+route::get('contactForm', function() {
+    return view('livewire.frontend.components.contact');
+});
 
 Route::get('save-blocks', [\App\Livewire\FrontEnd\PageBlockController::class, 'index'])->middleware('auth');
 Route::get('save-block-images', [\App\Livewire\FrontEnd\PageBlockController::class, 'indexImages'])->middleware('auth');

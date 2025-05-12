@@ -1,20 +1,20 @@
 <div>
     <div class="row justify-content-center mt-5">
         <div class="col-md-12 admin-page-container">
-            @if(Session::has('success'))
-                <div id="succes-alert" class="alert alert-success alert-warning alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close btn-close-alert-succes" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <p>Footer</p>
-                    <a class="close-card" href="" wire:click="cancelPage()"><i class="fa-solid fa-x"></i></a>
                 </div>
+                @if(Session::has('success'))
+                    <div id="succes-alert" class="alert alert-success alert-warning alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close btn-close-alert-succes" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
                 <div class="card-body">
                     <form  x-data="{ buttonDisabled: false}" x-on:livewire-upload-start="buttonDisabled = true" x-on:livewire-upload-finish="buttonDisabled = false" >
-                        <h5 class="form-section-title">Persoonsgegevens:</h5>
+                        <h5 class="form-section-title">Footer:</h5>
                         <br/>
                         <div class="form-section">
                             @for($i =1; $i <5; $i++)

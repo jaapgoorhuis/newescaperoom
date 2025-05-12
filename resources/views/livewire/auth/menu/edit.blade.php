@@ -46,17 +46,6 @@
                                     @enderror
                                 </div>
 
-                                <div class="form-group mb-3">
-                                    <label for="route">Item zichtbaar in de footer:</label><br/>
-                                    <small class="sub-label-admin">Kies of het item zichtbaar is in de footer op de website</small>
-                                    <select wire:model.live="show_footer" class="form-control">
-                                        <option value="1">Ja</option>
-                                        <option value="0">Nee</option>
-                                    </select>
-                                    @error('show_footer')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
 
 
                             <div class="d-grid gap-2">

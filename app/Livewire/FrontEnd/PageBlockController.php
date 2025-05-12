@@ -3,6 +3,8 @@
 namespace App\Livewire\FrontEnd;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Contact;
+use App\Mail\Magazine;
 use App\Mail\PostAdminMail;
 use App\Mail\PostMail;
 use App\Models\Color;
@@ -12,6 +14,7 @@ use App\Models\Filter;
 use App\Models\MenuItems;
 use App\Models\Page;
 use App\Models\PageBlock;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -31,6 +34,22 @@ class PageBlockController extends Component
 
     public $impressions;
 
+    public $voornaam;
+    public $achternaam;
+    public $telefoonnummer;
+    public $email;
+    public $bericht;
+
+    public $voornaam_contact;
+    public $achternaam_contact;
+    public $telefoonnummer_contact;
+    public $email_contact;
+    public $bericht_contact;
+    public $privacy_contact;
+
+    public $settings;
+    public $privacy;
+
     public function index()
     {
 
@@ -42,6 +61,8 @@ class PageBlockController extends Component
 
     public function render()
     {
+
+    $this->settings = Setting::first();
     $this->impressions = \App\Models\Impression::orderBy('order_id')->get();
 
     $this->page = Page::where('route', $this->slug)->first();
@@ -100,9 +121,70 @@ class PageBlockController extends Component
 
     }
 
-    public function setBlock($val) {
+
+    public function rules() {
+        return[
+            'voornaam' => 'required',
+            'achternaam' => 'required',
+            'email' => 'required|email',
+            'privacy' => 'accepted'
+        ];
+    }
+
+    public function contactRules() {
+        return[
+            'voornaam_contact' => 'required',
+            'achternaam_contact' => 'required',
+            'email_contact' => 'required|email',
+            'privacy_contact' => 'accepted'
+        ];
+    }
 
 
+    public function phoneRule() {
+        return[
+            'telefoonnummer' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:9',
+        ];
+    }
+
+    public function storeMagazine() {
+        $this->validate($this->rules());
+
+        $array = [
+            'voornaam' => $this->voornaam,
+            'achternaam' => $this->achternaam,
+            'email' => $this->email,
+            'telefoonnummer' => $this->telefoonnummer
+        ];
+
+        Mail::to($this->email)
+            ->send(new Magazine($array));
+
+        session()->flash('success','Het magazine is verstuurd naar '.$this->email);
+
+        $this->voornaam = '';
+        $this->achternaam = '';
+        $this->telefoonnummer = '';
+        $this->email = '';
+        $this->privacy = false;
+    }
+
+    public function storeContact() {
+
+        $this->validate($this->contactRules());
+
+
+        $array = [
+            'voornaam' => $this->voornaam_contact,
+            'achternaam' => $this->achternaam_contact,
+            'email' => $this->email_contact,
+            'telefoonnummer' => $this->telefoonnummer_contact,
+            'bericht' => $this->bericht_contact
+        ];
+
+
+        Mail::to(env('MAIL_TO_ADDRESS'))
+            ->send(new Contact($array));
     }
 
     public function updateOrder($list) {
