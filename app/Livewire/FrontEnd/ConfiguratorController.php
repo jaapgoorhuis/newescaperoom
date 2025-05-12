@@ -269,8 +269,8 @@ class ConfiguratorController extends Component
     }
 
     public function setColor($result) {
-        if(!in_array($result,$this->color_choise,)) {
-            if(count($this->color_choise)<3) {
+        if (!in_array($result, $this->color_choise)) {
+            if (count($this->color_choise) < 3) {
                 session()->push('color_choise', $result);
             }
         }

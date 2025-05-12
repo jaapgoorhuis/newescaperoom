@@ -8,6 +8,11 @@
     --color-grey: #676767;
 }
 
+
+ul.navbar-nav {
+    margin-top: 15px;
+}
+
 body *:not(html):not(style):not(br):not(tr):not(code) {
     box-sizing: border-box;
     font-family: "Figtree", sans-serif;
@@ -81,8 +86,35 @@ button.btn.btn-primary {
     background:#1D140C;
     color: white;
     border: none;
-
 }
+
+.col-12.points-box {
+    background: #1D140C;
+    color: white;
+    padding-top: 10px;
+    padding-bottom:15px;
+}
+
+ul.points-box-ul>li {
+    display: inline;
+    font-size: 12px;
+    padding-right: 10px;
+}
+
+.check-icon {
+    padding-right: 5px;
+}
+ul.points-box-ul {
+    padding-left: 0px;
+    list-style: none;
+    height: 0px;
+}
+
+.slide_points_slide {
+    padding-right: 40px;
+}
+
+
 button.btn.btn-primary.samenstellen {
     position: absolute;
     right: 85px;
@@ -150,9 +182,32 @@ button.btn.btn-primary:focus, button.btn.btn-primary:checked, button.btn.btn-pri
     .hidden-xs {
         display: none;
     }
+
 }
 
 @media(min-width: 576px) {
+
+    #check-box-1 {
+        display: inline;
+    }
+
+    #check-box-2 {
+        display: inline;
+    }
+
+    #check-box-3 {
+        display: inline;
+    }
+
+    #check-box-4 {
+        display: inline;
+    }
+
+
+    ul.points-box-ul>li {
+        font-size: 11px;
+        padding-right: 10px;
+    }
 
     button.btn.btn-primary.samenstellen {
         right: 180px;
@@ -169,6 +224,15 @@ button.btn.btn-primary:focus, button.btn.btn-primary:checked, button.btn.btn-pri
     }
 }
 @media(min-width:768px) {
+
+    #check-box-3 {
+        display: inline;
+    }
+
+    #check-box-4 {
+        display: inline;
+    }
+
 
     .magazine-image {
         height:300px;
@@ -206,6 +270,11 @@ button.btn.btn-primary:focus, button.btn.btn-primary:checked, button.btn.btn-pri
         font-size:40px !important;
     }
 
+    ul.points-box-ul>li {
+        font-size: 12px;
+        padding-right: 20px;
+    }
+
     .hidden-md {
         display: none;
     }
@@ -220,12 +289,20 @@ button.btn.btn-primary:focus, button.btn.btn-primary:checked, button.btn.btn-pri
     .vissible-lg {
         display: block;
     }
+    ul.navbar-nav {
+        margin-top: 0px;
+    }
     .hidden-lg {
         display: none;
     }
 
     .logo {
         height:89px;
+    }
+
+    ul.points-box-ul>li {
+        font-size: 12px;
+        padding-right: 30px;
     }
 
     button.btn.btn-primary.samenstellen {
@@ -240,6 +317,10 @@ button.btn.btn-primary:focus, button.btn.btn-primary:checked, button.btn.btn-pri
     .magazine-image {
         height:400px;
     }
+    ul.points-box-ul>li {
+        font-size: 14px;
+        padding-right: 40px;
+    }
 }
 
 @media(min-width:1400px) {
@@ -247,6 +328,8 @@ button.btn.btn-primary:focus, button.btn.btn-primary:checked, button.btn.btn-pri
         height:100%;
     }
 }
+
+
 
 a {
     text-decoration: none;
@@ -381,4 +464,27 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.sticky-top {
 
 .display-none {
     display: none !important;
+}
+
+.navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
+    font-weight: bolder;
+}
+
+.crewa-logo {
+    height: 15px;
+    width: 15px;
+    padding-left: 30px;
+    padding-bottom: 50px;
+}
+
+.crewa-logo >a > img {
+    height: 20px;
+}
+
+a.nav-link {
+    font-size: 18px;
+}
+
+li.nav-item {
+    padding-left: 15px;
 }

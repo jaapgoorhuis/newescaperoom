@@ -40,7 +40,8 @@
 
 
     <div class="col-12 form-column">
-        <button type="submit" class="btn-primary btn magazine-btn" wire:click="storeContact">Verzenden</button>
+        <button type="submit" class="btn-primary btn magazine-btn" wire:click="storeContact">
+            <i  wire:loading.class="d-inline-block" wire:target="storeContact" class="display-none fa fa-spinner fa-spin"></i> Verzenden</button>
     </div>
 
 </form>
@@ -48,7 +49,11 @@
 
 
 <script>
+    function resetForm() {
+        alert('reset');
+        jQuery('#validationCustom01').val('');
 
+    }
 
     (() => {
         'use strict'
@@ -64,14 +69,14 @@
 
                     form.classList.add('was-validated');
                 } else {
-
                     event.preventDefault()
-                   jQuery('.contact-alert').removeClass('hidden');
-                    form.classList.remove('was-validated');
+
                     setTimeout(() => {
+                        jQuery('.contact-alert').removeClass('hidden');
                         form.classList.remove("was-validated");
-                    });
-                    form.reset();
+                        form.reset();
+                    },2000);
+
                 }
 
             }, false)
@@ -81,5 +86,7 @@
 
 
     })()
+
+
 
 </script>

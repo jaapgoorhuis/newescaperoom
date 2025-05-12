@@ -303,12 +303,12 @@
                                                                     @foreach($this->colors as $color)
                                                                         @if($color->getMedia('color_images')->first())
                                                                             <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 color-image">
-                                                                                <div wire:click="setColor('{{preg_replace('/\s+/', '', $color->title)}}')" class="configurator-color-category-tumnbail @if(in_array(preg_replace('/\s+/', '', $color->title), $this->color_choise)) active @endif" id="{{preg_replace('/\s+/', '', $color->title)}}" style="background-image:url({{$color->getMedia('color_images')->first()->getUrl('tumbnails')}})">
-                                                                                    <div class="lookup-image">
-                                                                                        <a data-size="fullscreen" href="{{$color->getMedia('color_images')->first()->getUrl('tumbnails')}}" data-toggle="lightbox" class="my-lightbox-toggle">
-                                                                                            <i class='bx bx-zoom-in'></i>
-                                                                                        </a>
-                                                                                    </div>
+                                                                                <div wire:click.prevent="setColor('{{preg_replace('/\s+/', '', $color->title)}}')" class="configurator-color-category-tumnbail @if(in_array(preg_replace('/\s+/', '', $color->title), $this->color_choise)) active @endif" id="{{preg_replace('/\s+/', '', $color->title)}}" style="background-image:url({{$color->getMedia('color_images')->first()->getUrl('tumbnails')}})">
+                                                                                </div>
+                                                                                <div wire:click.prevent="setColor('do_nothing')" class="lookup-image">
+                                                                                    <a data-size="fullscreen" href="{{$color->getMedia('color_images')->first()->getUrl('tumbnails')}}" data-toggle="lightbox" class="my-lightbox-toggle">
+                                                                                        <i class='bx bx-zoom-in'></i>
+                                                                                    </a>
                                                                                 </div>
                                                                                 <div class="configurator-colorcategory-tumnail-title">{{$color->title}}</div>
                                                                             </div>
@@ -326,7 +326,7 @@
                                                                 <div  class="row">
                                                                     @foreach($this->colors as $color)
                                                                         @if($color->getMedia('color_images')->first())
-                                                                            <div class="col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2 color-image">
+                                                                            <div class="col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 color-image">
                                                                                 <div wire:click="setColor('{{preg_replace('/\s+/', '', $color->title)}}')" class="configurator-color-category-tumnbail @if(in_array(preg_replace('/\s+/', '', $color->title), $this->color_choise)) active @endif" id="{{preg_replace('/\s+/', '', $color->title)}}" style="background-image:url({{$color->getMedia('color_images')->first()->getUrl('tumbnails')}})">
                                                                                     <div class="lookup-image">
                                                                                         <i class='bx bx-zoom-in'></i>
@@ -898,7 +898,7 @@
                                 <br/><br/>
                                 <div class="mb-3 row">
                                     <div class="col-12">
-                                        <label class="montage-options">Ik ga akkoord met de <a href="/voorwaarden">algemene voorwaarden</a>
+                                        <label class="montage-options">Ik ga akkoord met de <a href="/algemene-voorwaarden">algemene voorwaarden</a>
                                             <input type="checkbox" wire:model="acceptConditions">
                                             <span class="checkmark"></span>
                                         </label>

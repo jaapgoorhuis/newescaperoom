@@ -173,7 +173,6 @@ class PageBlockController extends Component
 
         $this->validate($this->contactRules());
 
-
         $array = [
             'voornaam' => $this->voornaam_contact,
             'achternaam' => $this->achternaam_contact,
@@ -182,9 +181,10 @@ class PageBlockController extends Component
             'bericht' => $this->bericht_contact
         ];
 
-
         Mail::to(env('MAIL_TO_ADDRESS'))
             ->send(new Contact($array));
+
+        $this->dispatch('resetForm');
     }
 
     public function updateOrder($list) {

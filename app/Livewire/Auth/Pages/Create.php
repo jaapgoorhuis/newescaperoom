@@ -52,8 +52,6 @@ class Create extends Component
             'is_visible' => '1',
             'is_active' => $this->is_active,
             'show_footer' => $this->show_footer,
-            'show_header'=> $this->show_header,
-            'header_text' => $this->header_text
         ]);
 
         $this->uploadFiles();

@@ -78,8 +78,6 @@ class Edit extends Component
             'is_removable' => $this->is_removable,
             'is_active' => $this->is_active,
             'show_footer' => $this->show_footer,
-            'show_header'=> $this->show_header,
-            'header_text' => $this->header_text
         ]);
 
 

@@ -7,7 +7,7 @@
         <ul class='splide__list'>
             @foreach($impressions as $impression)
             <li class='splide__slide splide_impression_slide'>
-                <div class="splide__slide_image" style="background-image: url({{$impression->getMedia('impressions')->first()->getUrl('impressions')}})">
+                <div class="splide__slide_image" style="background-image: url({{$impression->getFirstMediaUrl('impressions')}})">
 
                 </div>
             </li>

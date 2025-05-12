@@ -10,6 +10,8 @@
     <link rel="icon" type="image/x-icon" href="{{asset('storage/images/frontend/uploads/favicon.ico')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <?php  $route = \Illuminate\Support\Facades\Route::current()->slug;
+            $route2 = \Illuminate\Support\Facades\Route::current()->uri();
+
            if($route) {
                $page = \App\Models\Page::where('route', $route)->first();
                if(!$page) {
@@ -18,11 +20,20 @@
                } else {
                    $title = $page->title;
                }
-           }  else {
+           }
+           else if ($route2 == 'offerte-aanvragen') {
+
+               $page = \App\Models\Page::where('route', 'offerte-aanvragen')->first();
+               $title = $page->title;
+           }
+           else {
                $page = \App\Models\Page::where('route', 'index')->first();
                $title = $page->title;
            }
     ?>
+
+
+    <meta name="description" content="DecoDoors.nl – Hoogwaardige houten binnendeuren op maat. Tijdloos design, vakmanschap en snelle levering. Ontdek jouw perfecte deur online!"/>
 
     <title>Decodoors - {{$title}}</title>
     <script

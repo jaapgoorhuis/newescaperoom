@@ -1,7 +1,7 @@
 <?php $menuitems = \App\Models\MenuItems::orderBy('order_id', 'asc')->get()?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light @if($this->page)@if($this->page->route != 'offerte-aanvragen')sticky-top @endif @else sticky-top @endif">
     <div class="container">
-        <a class="navbar-brand" href="/index"><img class="logo" src="{{asset('/storage/images/frontend/uploads/logo.png')}}"></a>
+        <a class="navbar-brand" href="/index"><img class="logo" alt="Decodoors logo" src="{{asset('/storage/images/frontend/uploads/logo.png')}}"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
