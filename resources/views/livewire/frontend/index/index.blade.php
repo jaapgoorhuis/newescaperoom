@@ -1043,12 +1043,12 @@
                                             container = '';
                                         }
 
-                                        html += '<div class="previewImg ' + customClass + '" id="preview-image-' + id2 + '" style="background:linear-gradient(to right, #dea85fbd, #291d1b),  url(/storage/images/frontend/uploads/' + imageName + ')">';
+                                        html += '<div class="previewImg ' + customClass + '" id="preview-image-' + id2 + '" style="background:linear-gradient(to right, #dea85fbd, #291d1b),  url(/public/storage/images/frontend/uploads/' + imageName + ')">';
                                         html += '<div class="container slider-container"><div class="slider-text">' + container + '</div></div></div>';
 
                                     }
                                     if (customClass.includes('preview-image')) {
-                                        html += '<img alt="Decodoors - afbeelding" id="preview-image-' + id2 + '" class="previewImg" src="{{asset('storage/images/frontend/uploads/')}}/' + imageName + '">'
+                                        html += '<img alt="Escaperoom - afbeelding" id="preview-image-' + id2 + '" class="previewImg" src="{{asset('storage/images/frontend/uploads/')}}/' + imageName + '">'
                                     }
                                 }
 
