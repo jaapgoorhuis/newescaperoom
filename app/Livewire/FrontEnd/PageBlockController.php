@@ -116,7 +116,7 @@ class PageBlockController extends Component
     public function storeImages(Request $request)
     {
         foreach($request->files as $file) {
-            $file->move(public_path('storage/images/frontend/uploads'), $file->getClientOriginalName());
+            $file->move(public_path('/public/storage/images/frontend/uploads'), $file->getClientOriginalName());
         }
 
     }
