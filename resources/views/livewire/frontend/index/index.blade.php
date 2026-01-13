@@ -1116,6 +1116,7 @@
             });
 
             if (arr.length > 0) {
+
                 jQuery.ajax({
                     type: 'POST',
                     url: "/save-blocks",

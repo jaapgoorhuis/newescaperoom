@@ -70,9 +70,8 @@ route::get('contactForm', function() {
 });
 
 Route::get('save-blocks', [\App\Livewire\FrontEnd\PageBlockController::class, 'index'])->middleware('auth');
-Route::get('save-block-images', [\App\Livewire\FrontEnd\PageBlockController::class, 'indexImages'])->middleware('auth');
 Route::post('save-blocks', [\App\Livewire\FrontEnd\PageBlockController::class,'store'])->name("blocks.store")->middleware('auth');
-Route::post('save-block-images', [\App\Livewire\FrontEnd\PageBlockController::class,'storeImages'])->name("blocks.storeImage")->middleware('auth');
+Route::post('save-block-images', [\App\Livewire\FrontEnd\PageBlockController::class,'storeImages']);
 Route::get('/offerte-aanvragen', \App\Livewire\FrontEnd\ConfiguratorController::class);
 Route::get('{slug?}', \App\Livewire\FrontEnd\PageBlockController::class);
 

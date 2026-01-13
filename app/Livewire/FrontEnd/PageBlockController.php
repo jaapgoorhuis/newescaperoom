@@ -62,10 +62,10 @@ class PageBlockController extends Component
     public function render()
     {
 
-    $this->settings = Setting::first();
-    $this->impressions = \App\Models\Impression::orderBy('order_id')->get();
+        $this->settings = Setting::first();
+        $this->impressions = \App\Models\Impression::orderBy('order_id')->get();
 
-    $this->page = Page::where('route', $this->slug)->first();
+        $this->page = Page::where('route', $this->slug)->first();
         if($this->page) {
             if ($this->slug == $this->page->route) {
                 $this->page = Page::where('route', $this->slug)->first();
@@ -116,7 +116,7 @@ class PageBlockController extends Component
     public function storeImages(Request $request)
     {
         foreach($request->files as $file) {
-            $file->move(public_path('/public/storage/images/frontend/uploads'), $file->getClientOriginalName());
+            $file->move(public_path('storage/images/frontend/uploads'), $file->getClientOriginalName());
         }
 
     }
