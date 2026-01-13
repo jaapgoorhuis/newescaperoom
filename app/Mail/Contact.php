@@ -28,7 +28,7 @@ class Contact extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Decodoors - Contactformulier ingevuld',
+            subject: 'Escaperoom kootwijkerbroek - Contactformulier ingevuld',
         );
     }
 

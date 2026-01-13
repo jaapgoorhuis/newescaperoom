@@ -33,9 +33,9 @@
     ?>
 
 
-    <meta name="description" content="DecoDoors.nl – Hoogwaardige houten binnendeuren op maat. Tijdloos design, vakmanschap en snelle levering. Ontdek jouw perfecte deur online!"/>
+    <meta name="description" content="Escape room Kootwijkerbroek is een escape room centrum met drie unieke escape kamers. Parijse kunstroof, De smokkel en Schipbreuk"/>
 
-    <title>Decodoors - {{$title}}</title>
+    <title>Escaperoom Kootwijkerbroek - {{$title}}</title>
     <script
         src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
@@ -61,11 +61,15 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
 
     <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
 
     <script src="https://cdn.jsdelivr.net/npm/bs5-lightbox@1.8.5/dist/index.bundle.min.js"></script>
     <script src="{{asset('/js/summernote-image-attributes.js')}}"></script>
@@ -81,6 +85,28 @@
 
 
 <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // Check of widget nog niet geladen is
+        const widget = document.getElementById('oa_widget');
+        if (!widget.dataset.loaded) {
+
+            // Maak een nieuw script element aan
+            const script = document.createElement('script');
+            script.src = 'https://widget.onlineafspraken.nl/consumer/booking/book/key/alah21oooa98-alaz00/l/a3216/ln/nl/t/8090ec/f/110d0111/o/theme:advanced,dp:modern/c/00aeef,7dc473,fff,f16522,56ac4a,000,0,fff/at/0/rs/0/pp/0/lp/1/ls/0/og/2/op/2/gp/0/gtm_tag/GTM-N643DK8M/exclude/mobiledetect/output/js';
+            script.async = true; // Laad async zodat het de pagina niet blokkeert
+
+            // Markeer dat widget is geladen
+            script.onload = () => {
+                widget.dataset.loaded = true;
+                console.log('Widget geladen!');
+            };
+
+            // Voeg script toe aan body
+            document.body.appendChild(script);
+        }
+    });
 
 
     jQuery(document).ready(function() {
@@ -109,6 +135,12 @@
         }
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('year').textContent = new Date().getFullYear();
+    });
+</script>
+
 <script>
 
     var addButton = function (context) {

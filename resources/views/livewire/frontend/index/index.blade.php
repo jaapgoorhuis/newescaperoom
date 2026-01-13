@@ -144,7 +144,7 @@
                                                                 <div class="mb-3">
                                                                     <label for="edit-column-color" class="form-label">Achtergrondkleur bewerken</label>
                                                                     <br/><Br/>
-                                                                    Template kleuren:<br/> #1D140C (donker)<br/>#F7F5F3 (licht)<br/><br/>
+                                                                    Template kleuren:<br/> #fff (Zwart)<br/>#4d3631 (Bruin)<br/>#222222 (Donkergrijs) <br/> #333 (Lichtgrijs) <br/><br/>
                                                                     <input type="color" class="form-control form-control-color" id="edit-column-color" title="Kies een kleur">
                                                                     <br/>
 
@@ -297,9 +297,9 @@
                                                                 <div class="mb-3">
                                                                     <label for="edit-column-color" class="form-label">Achtergrondkleur bewerken</label><br/>
                                                                     <br/>
-                                                                    Template kleuren:<br/> #1D140C (donker)<br/>#F7F5F3 (licht)<br/><br/>
+                                                                    Template kleuren:<br/> #fff (Zwart)<br/>#4d3631 (Bruin)<br/>#222222 (Donkergrijs) <br/> #333 (Lichtgrijs) <br/><br/>
 
-                                                                    <input type="color" class="form-control form-control-color" id="edit-parent-column-color" value="#f7f5f3" title="Kies een kleur">
+                                                                    <input type="color" class="form-control form-control-color" id="edit-parent-column-color" value="#FFF" title="Kies een kleur">
 
                                                                 </div>
                                                             </div>
@@ -435,20 +435,36 @@
             <div id="review-placeholder" class="hidden"></div>
             <div id="contact-placeholder" class="hidden"></div>
         @endauth
-        @include('livewire.frontend.components.points')
+{{--        @include('livewire.frontend.components.points')--}}
         @include('livewire.frontend.components.menu')
 
         <div class="home-row block-row" wire:sortable="updateOrder" wire:ignore>
-        @foreach(\App\Models\PageBlock::orderBy('order_id', 'asc')->get() as $pageblocks)
+            @php $i = 0; @endphp
+
+            @foreach(\App\Models\PageBlock::orderBy('order_id', 'asc')->get() as $pageblocks)
                 @if($pageblocks->page_id == $this->pageid)
                     {!! $pageblocks->value !!}
+                    @php $i++; @endphp
+
+{{--                    @if($i == 1)--}}
+{{--                        @if($this->pageid == "16")--}}
+{{--                            <div class="full-width-box" style="background-color:black">--}}
+{{--                                <div class="container" style="background-color:black">--}}
+{{--                                    <div class="col-12">--}}
+{{--                                        <script type="text/javascript" src="https://beheerapp.onlineafspraken.nl/build/widget/widget.js" data-api-key="alah21oooa98-alaz00" data-widget-id="920493fe-31a9-47fe-bdc8-1cbb55b8ba02" data-mode="triggerButtonRight" defer></script>--}}
+{{--                                        <div id="_oa_widget_root"></div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        @endif--}}
+{{--                    @endif--}}
                 @endif
             @endforeach
 
 
             @if(!$this->pageid)
                 @foreach(\App\Models\PageBlock::where('page_id', $this->indexPage->id)->orderBy('order_id', 'asc')->get() as $pageblocks)
-                    {!! $pageblocks->value !!}
+                        {!! $pageblocks->value !!}
                 @endforeach
             @endif
         </div>
@@ -598,11 +614,13 @@
     });
 
 
-
-
     jQuery('#edit-slider-text').summernote({
         tabsize: 2,
         height:150,
+        codeview: true,
+        codeviewFilter: false,
+        codeviewIframeFilter: false,
+        prettifyHtml: false,
         toolbar: [
 
             ['addbutton', ['addbutton']],
@@ -639,6 +657,14 @@
                 ['custom', ['imageAttributes']],
             ],
         },
+        callbacks: {
+            onPaste: function(e) {
+                e.preventDefault();
+                const clipboardData = (e.originalEvent || e).clipboardData;
+                const html = clipboardData.getData('text/html') || clipboardData.getData('text/plain');
+                document.execCommand('insertHTML', false, html);
+            }
+        }
     });
 
         function showColumns() {
@@ -786,6 +812,10 @@
                 jQuery('#block-' + randomIds).summernote({
                     tabsize: 2,
                     height:150,
+                    codeview: true,
+                    codeviewFilter: false,
+                    codeviewIframeFilter: false,
+                    prettifyHtml: false,
                     toolbar: [
 
                         ['addbutton', ['addbutton']],
@@ -813,13 +843,6 @@
                         addLinkedInDark: addLinkedInDark,
                         addInstaDark: addInstaDark
                     },
-                    imageAttributes: {
-                        icon: '<i class="note-icon-pencil"/>',
-                        figureClass: 'figureClass',
-                        figcaptionClass: 'captionClass',
-                        captionText: 'Caption Goes Here.',
-                        manageAspectRatio: true // true = Lock the Image Width/Height, Default to true
-                    },
                     lang: 'NL',
                     popover: {
                         image: [
@@ -829,6 +852,14 @@
                             ['custom', ['imageAttributes']],
                         ],
                     },
+                    callbacks: {
+                        onPaste: function(e) {
+                            e.preventDefault();
+                            const clipboardData = (e.originalEvent || e).clipboardData;
+                            const html = clipboardData.getData('text/html') || clipboardData.getData('text/plain');
+                            document.execCommand('insertHTML', false, html);
+                        }
+                    }
                 });
             } else if (selectedBlockItem === 'afbeelding-block-item') {
 
@@ -1012,7 +1043,7 @@
                                             container = '';
                                         }
 
-                                        html += '<div class="previewImg ' + customClass + '" id="preview-image-' + id2 + '" style="background-image: url(/public/storage/images/frontend/uploads/' + imageName + ')">';
+                                        html += '<div class="previewImg ' + customClass + '" id="preview-image-' + id2 + '" style="background:linear-gradient(to right, #dea85fbd, #291d1b),  url(/storage/images/frontend/uploads/' + imageName + ')">';
                                         html += '<div class="container slider-container"><div class="slider-text">' + container + '</div></div></div>';
 
                                     }
@@ -1149,12 +1180,17 @@
                 jQuery('#' + blockid).summernote({
                     tabsize: 2,
                     height:150,
+                    codeview: true,
+                    codeviewFilter: false,
+                    codeviewIframeFilter: false,
+                    prettifyHtml: false,
                     toolbar: [
 
                         ['addbutton', ['addbutton']],
                         ['addFacebook', ['addFacebook']],
                         ['addLinkedIn', ['addLinkedIn']],
                         ['addInsta', ['addInsta']],
+
                         ['addFacebookDark', ['addFacebookDark']],
                         ['addLinkedInDark', ['addLinkedInDark']],
                         ['addInstaDark', ['addInstaDark']],
@@ -1175,13 +1211,6 @@
                         addLinkedInDark: addLinkedInDark,
                         addInstaDark: addInstaDark
                     },
-                    imageAttributes: {
-                        icon: '<i class="note-icon-pencil"/>',
-                        figureClass: 'figureClass',
-                        figcaptionClass: 'captionClass',
-                        captionText: 'Caption Goes Here.',
-                        manageAspectRatio: true // true = Lock the Image Width/Height, Default to true
-                    },
                     lang: 'NL',
                     popover: {
                         image: [
@@ -1191,6 +1220,14 @@
                             ['custom', ['imageAttributes']],
                         ],
                     },
+                    callbacks: {
+                        onPaste: function(e) {
+                            e.preventDefault();
+                            const clipboardData = (e.originalEvent || e).clipboardData;
+                            const html = clipboardData.getData('text/html') || clipboardData.getData('text/plain');
+                            document.execCommand('insertHTML', false, html);
+                        }
+                    }
                 });
 
 
@@ -1206,18 +1243,12 @@
             if(typeBlock.includes("slider")) {
 
                 let slidercontainer = jQuery('#'+blockid).find('div.slider-text').html();
-
-
-
                 selector.html('');
-
-
                 jQuery('#' + blockid).html('' +
                     '<input class="upload-file" id="imgInp-' + randomIds + '" style="margin-bottom: 30px; margin-top: 30px;" type="file" onChange="previewSliderFile(this)" accept="image/png, image/jpeg, image/jpg" />' +
                      '<div class="slider-image" id="custom-slider-'+randomIds+'">'+
                     '<div class="container slider-container"><div class="slider-text">'+slidercontainer+'</div></div>'+
                     '</div>');
-
             }
 
             jQuery('.cancel-edit-block').click(function (e) {
@@ -1227,10 +1258,7 @@
                 selector.css('display', 'block');
                 parentSelector.find('div.note-editor').addClass('hidden');
             });
-
-
         }
-
 
         function removeblock(e) {
 
@@ -1249,14 +1277,9 @@
         let editParentColumnId;
 
         function editColumn(e) {
-
             jQuery('#edit-column-modal').modal('show');
-
             let columnId = jQuery(e).next('div').attr('id');
-
             let blockClass = jQuery(e).next('div').attr('class');
-
-
 
             if(blockClass !== undefined)
             {
@@ -1272,18 +1295,12 @@
             }
 
             let existingColor = jQuery('#' + columnId).css('background-color');
-
-
-
             let padding = jQuery('#' + columnId).css('padding');
 
             let marginTop = jQuery('#' + columnId).css('margin-top');
             let marginLeft = jQuery('#' + columnId).css('margin-left');
             let marginBottom = jQuery('#' + columnId).css('margin-bottom');
             let marginRight = jQuery('#' + columnId).css('margin-right');
-
-
-
 
             if(existingColor !== undefined) {
                 let hex = rgb2hex(existingColor);
@@ -1341,7 +1358,6 @@
                 jQuery('#' + editId).css('padding', padding + 'px');
             }
 
-
             jQuery('#' + editId).css('margin-left', marginLeft + 'px');
             jQuery('#' + editId).css('margin-right', marginRight + 'px');
             jQuery('#' + editId).css('margin-top', marginTop + 'px');
@@ -1351,7 +1367,6 @@
 
             jQuery('#edit-column-modal').modal('hide');
         }
-
 
         function deleteColumn(e) {
             let id = jQuery(e).attr('id');
@@ -1476,5 +1491,7 @@
                 ("0" + parseInt(rgb[2], 10).toString(16)).slice(-2) +
                 ("0" + parseInt(rgb[3], 10).toString(16)).slice(-2) : '';
         }
+
+
 
 </script>

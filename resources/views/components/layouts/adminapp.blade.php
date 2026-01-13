@@ -2,7 +2,7 @@
 <html>
 <head>
     @livewireStyles
-    <title>Decodoors - backend</title>
+    <title>Escaperoom Kootwijkerbroek - backend</title>
 
     <script
         src="https://code.jquery.com/jquery-3.7.1.min.js"

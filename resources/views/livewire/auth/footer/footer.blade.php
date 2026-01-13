@@ -17,7 +17,7 @@
                         <h5 class="form-section-title">Footer:</h5>
                         <br/>
                         <div class="form-section">
-                            @for($i =1; $i <5; $i++)
+                            @for($i =1; $i <2; $i++)
                                 <?php
                                     $indicater = 'type_column_'.$i;
                                     $column = 'column_'.$i;
@@ -52,23 +52,23 @@
                                 </div>
                                 @endif
 
-                                @if($this->$indicater == 'image')
-                                    <div>
-                                        <div class="form-group mb-3">
-                                            <label for="{{$imageColumn}}">Afbeelding column {{$i}}:</label><br/>
-                                            <small class="sub-label-admin">Dit is de afbeelding in de footer in column {{$i}} (vanaf links)</small><br/>
-                                            <input class="image_column_1" id="{{$imageColumn}}" wire:change="resetExistingImage('{{$i}}')" wire:model="{{$imageColumn}}" type="file" accept="image/png, image/jpeg, image/jpg" /><br/>
-                                            @error($imageColumn)
-                                            <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                        @if($this->$column)
-                                            <label for="existing-image-{{$i}}">Bestaande afbeelding:</label><br/>
-                                            {!! $this->$column !!}
-                                        @endif
+{{--                                @if($this->$indicater == 'image')--}}
+{{--                                    <div>--}}
+{{--                                        <div class="form-group mb-3">--}}
+{{--                                            <label for="{{$imageColumn}}">Afbeelding column {{$i}}:</label><br/>--}}
+{{--                                            <small class="sub-label-admin">Dit is de afbeelding in de footer in column {{$i}} (vanaf links)</small><br/>--}}
+{{--                                            <input class="image_column_1" id="{{$imageColumn}}" wire:change="resetExistingImage('{{$i}}')" wire:model="{{$imageColumn}}" type="file" accept="image/png, image/jpeg, image/jpg" /><br/>--}}
+{{--                                            @error($imageColumn)--}}
+{{--                                            <span class="text-danger">{{ $message }}</span>--}}
+{{--                                            @enderror--}}
+{{--                                        </div>--}}
+{{--                                        @if($this->$column)--}}
+{{--                                            <label for="existing-image-{{$i}}">Bestaande afbeelding:</label><br/>--}}
+{{--                                            {!! $this->$column !!}--}}
+{{--                                        @endif--}}
 
-                                    </div>
-                                @endif
+{{--                                    </div>--}}
+{{--                                @endif--}}
                                 <hr class="rounded">
                             @endfor
                         </div>
@@ -157,7 +157,7 @@
                 tooltip: 'addbutton',
                 click: function () {
                     // invoke insertText method with 'hello' on editor module.
-                    context.invoke('editor.pasteHTML', '<a href="{{$this->settings->linkedin}}"><img src="{{asset('/storage/images/frontend/uploads/linkedin.svg')}}" class="facebook-icon" alt="linkedin"/></a>');
+                    context.invoke('editor.pasteHTML', '<a href="{{$this->settings->linkedin}}"><img src="{{asset('/storage/images/frontend/uploads/linkedin.svg')}}" class="facebook-icon" alt="facebook"/></a>');
 
                 }
             });
@@ -165,12 +165,10 @@
             return linkedin.render(); // return button as jquery object
         }
 
-
         $('#column_1_text').summernote({
             tabsize: 2,
-            height:150,
+            height: 150,
             toolbar: [
-
                 ['addbutton', ['addbutton']],
                 ['addFacebook', ['addFacebook']],
                 ['addLinkedIn', ['addLinkedIn']],
@@ -181,7 +179,7 @@
                 ['table', ['table']],
                 ['insert', ['link', 'picture', 'video']],
                 ['view', ['fullscreen', 'codeview', 'help']],
-                    ['style', ['style']],
+                ['style', ['style']],
             ],
             buttons: {
                 addbutton: addButton,
@@ -194,7 +192,7 @@
                 figureClass: 'figureClass',
                 figcaptionClass: 'captionClass',
                 captionText: 'Caption Goes Here.',
-                manageAspectRatio: true // true = Lock the Image Width/Height, Default to true
+                manageAspectRatio: true
             },
             lang: 'NL',
             popover: {
@@ -206,10 +204,19 @@
                 ],
             },
 
+            // --- Hier voegen we de HTML-ondersteuning toe ---
+            sanitize: false,          // Belangrijk: volledige HTML toegestaan
+            codeviewFilter: false,    // Houdt alle HTML tags intact
+            codeviewIframeFilter: true, // Laat iframe's toe in codeview
             callbacks: {
                 onChange: function (contents, $editable) {
-
                 @this.set('column_1_text', contents)
+                },
+                onPaste: function(e) {
+                    // Zorg dat geplakte HTML behouden blijft
+                    var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                    e.preventDefault();
+                    document.execCommand('insertHtml', false, bufferText);
                 }
             },
         });
@@ -396,5 +403,6 @@
     $('.note-editable').on('click', function () {
         $('.note-btn-group').removeClass('open');
     });
+
 </script>
 @endscript
