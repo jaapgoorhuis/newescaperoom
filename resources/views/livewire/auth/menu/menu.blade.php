@@ -1,4 +1,4 @@
-<div wire:ignore>
+
     <div class="row justify-content-center mt-5">
         <div class="col-md-12 admin-page-container">
             <div class="card">
@@ -69,7 +69,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 {{-- CSS voor inspringing van children --}}
 <style>
