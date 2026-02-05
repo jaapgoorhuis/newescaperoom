@@ -1196,7 +1196,7 @@
                         }
                     });
                 }
-                location.reload();
+                // location.reload();
             }
         }
 
