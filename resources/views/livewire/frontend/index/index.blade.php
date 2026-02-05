@@ -659,11 +659,11 @@
         },
         callbacks: {
             onPaste: function (e) {
-                const clipboardData = (e.originalEvent || e).clipboardData;
+                const clipboard = (e.originalEvent || e).clipboardData;
                 const editor = this;
 
-                // 1️⃣ Afbeelding?
-                const imageItem = Array.from(clipboardData.items)
+                // 🖼️ IMAGE
+                const imageItem = Array.from(clipboard.items)
                     .find(item => item.type.startsWith('image/'));
 
                 if (imageItem) {
@@ -672,30 +672,40 @@
                     const file = imageItem.getAsFile();
                     const reader = new FileReader();
 
-                    reader.onload = function (event) {
-                        const wrapper = document.createElement('div');
-                        wrapper.innerHTML = `<img src="${event.target.result}" />`;
+                    reader.onload = function (evt) {
+                        const img = document.createElement('img');
+                        img.src = evt.target.result;
 
-                        $(editor).summernote('insertNode', wrapper);
+                        // image altijd in <p> → 1 root
+                        const p = document.createElement('p');
+                        p.appendChild(img);
+
+                        $(editor).summernote('insertNode', p);
                     };
 
                     reader.readAsDataURL(file);
                     return;
                 }
 
-                // 2️⃣ HTML?
-                const html = clipboardData.getData('text/html');
+                // 📄 HTML
+                const html = clipboard.getData('text/html');
                 if (html) {
                     e.preventDefault();
-                    $(editor).summernote('pasteHTML', `<div>${html}</div>`);
+
+                    // 🔥 STRIP Livewire / Blade comments
+                    const cleanHtml = html.replace(/<!--[\s\S]*?-->/g, '');
+
+                    $(editor).summernote('pasteHTML', cleanHtml);
                     return;
                 }
 
-                // 3️⃣ Plain text
-                const text = clipboardData.getData('text/plain');
+                // ✍️ TEXT
+                const text = clipboard.getData('text/plain');
                 if (text) {
                     e.preventDefault();
-                    $(editor).summernote('pasteHTML', `<div>${$('<div>').text(text).html()}</div>`);
+
+                    const escaped = $('<div>').text(text).html();
+                    $(editor).summernote('pasteHTML', `<p>${escaped}</p>`);
                 }
             }
         }
@@ -889,11 +899,11 @@
                     },
                     callbacks: {
                         onPaste: function (e) {
-                            const clipboardData = (e.originalEvent || e).clipboardData;
+                            const clipboard = (e.originalEvent || e).clipboardData;
                             const editor = this;
 
-                            // 1️⃣ Afbeelding?
-                            const imageItem = Array.from(clipboardData.items)
+                            // 🖼️ IMAGE
+                            const imageItem = Array.from(clipboard.items)
                                 .find(item => item.type.startsWith('image/'));
 
                             if (imageItem) {
@@ -902,30 +912,40 @@
                                 const file = imageItem.getAsFile();
                                 const reader = new FileReader();
 
-                                reader.onload = function (event) {
-                                    const wrapper = document.createElement('div');
-                                    wrapper.innerHTML = `<img src="${event.target.result}" />`;
+                                reader.onload = function (evt) {
+                                    const img = document.createElement('img');
+                                    img.src = evt.target.result;
 
-                                    $(editor).summernote('insertNode', wrapper);
+                                    // image altijd in <p> → 1 root
+                                    const p = document.createElement('p');
+                                    p.appendChild(img);
+
+                                    $(editor).summernote('insertNode', p);
                                 };
 
                                 reader.readAsDataURL(file);
                                 return;
                             }
 
-                            // 2️⃣ HTML?
-                            const html = clipboardData.getData('text/html');
+                            // 📄 HTML
+                            const html = clipboard.getData('text/html');
                             if (html) {
                                 e.preventDefault();
-                                $(editor).summernote('pasteHTML', `<div>${html}</div>`);
+
+                                // 🔥 STRIP Livewire / Blade comments
+                                const cleanHtml = html.replace(/<!--[\s\S]*?-->/g, '');
+
+                                $(editor).summernote('pasteHTML', cleanHtml);
                                 return;
                             }
 
-                            // 3️⃣ Plain text
-                            const text = clipboardData.getData('text/plain');
+                            // ✍️ TEXT
+                            const text = clipboard.getData('text/plain');
                             if (text) {
                                 e.preventDefault();
-                                $(editor).summernote('pasteHTML', `<div>${$('<div>').text(text).html()}</div>`);
+
+                                const escaped = $('<div>').text(text).html();
+                                $(editor).summernote('pasteHTML', `<p>${escaped}</p>`);
                             }
                         }
                     }
@@ -1291,13 +1311,13 @@
                             ['custom', ['imageAttributes']],
                         ],
                     },
-                    callbacallbacks: {
+                    callbacks: {
                         onPaste: function (e) {
-                            const clipboardData = (e.originalEvent || e).clipboardData;
+                            const clipboard = (e.originalEvent || e).clipboardData;
                             const editor = this;
 
-                            // 1️⃣ Afbeelding?
-                            const imageItem = Array.from(clipboardData.items)
+                            // 🖼️ IMAGE
+                            const imageItem = Array.from(clipboard.items)
                                 .find(item => item.type.startsWith('image/'));
 
                             if (imageItem) {
@@ -1306,30 +1326,40 @@
                                 const file = imageItem.getAsFile();
                                 const reader = new FileReader();
 
-                                reader.onload = function (event) {
-                                    const wrapper = document.createElement('div');
-                                    wrapper.innerHTML = `<img src="${event.target.result}" />`;
+                                reader.onload = function (evt) {
+                                    const img = document.createElement('img');
+                                    img.src = evt.target.result;
 
-                                    $(editor).summernote('insertNode', wrapper);
+                                    // image altijd in <p> → 1 root
+                                    const p = document.createElement('p');
+                                    p.appendChild(img);
+
+                                    $(editor).summernote('insertNode', p);
                                 };
 
                                 reader.readAsDataURL(file);
                                 return;
                             }
 
-                            // 2️⃣ HTML?
-                            const html = clipboardData.getData('text/html');
+                            // 📄 HTML
+                            const html = clipboard.getData('text/html');
                             if (html) {
                                 e.preventDefault();
-                                $(editor).summernote('pasteHTML', `<div>${html}</div>`);
+
+                                // 🔥 STRIP Livewire / Blade comments
+                                const cleanHtml = html.replace(/<!--[\s\S]*?-->/g, '');
+
+                                $(editor).summernote('pasteHTML', cleanHtml);
                                 return;
                             }
 
-                            // 3️⃣ Plain text
-                            const text = clipboardData.getData('text/plain');
+                            // ✍️ TEXT
+                            const text = clipboard.getData('text/plain');
                             if (text) {
                                 e.preventDefault();
-                                $(editor).summernote('pasteHTML', `<div>${$('<div>').text(text).html()}</div>`);
+
+                                const escaped = $('<div>').text(text).html();
+                                $(editor).summernote('pasteHTML', `<p>${escaped}</p>`);
                             }
                         }
                     }
