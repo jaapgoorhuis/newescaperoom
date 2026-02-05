@@ -659,41 +659,47 @@
         },
         callbacks: {
             onPaste: function (e) {
-                e.preventDefault();
-
                 const clipboardData = (e.originalEvent || e).clipboardData;
-                const items = clipboardData.items;
                 const editor = this;
 
-                for (let i = 0; i < items.length; i++) {
-                    const item = items[i];
+                // 1️⃣ Afbeelding?
+                const imageItem = Array.from(clipboardData.items)
+                    .find(item => item.type.startsWith('image/'));
 
-                    // 📸 Afbeelding
-                    if (item.type.indexOf("image") !== -1) {
-                        const file = item.getAsFile();
-                        const reader = new FileReader();
+                if (imageItem) {
+                    e.preventDefault();
 
-                        reader.onload = function (event) {
-                            // WRAP de image in een container
-                            const wrapper = document.createElement('div');
-                            wrapper.innerHTML = `<img src="${event.target.result}" />`;
+                    const file = imageItem.getAsFile();
+                    const reader = new FileReader();
 
-                            $(editor).summernote('insertNode', wrapper);
-                        };
+                    reader.onload = function (event) {
+                        const wrapper = document.createElement('div');
+                        wrapper.innerHTML = `<img src="${event.target.result}" />`;
 
-                        reader.readAsDataURL(file);
-                    }
+                        $(editor).summernote('insertNode', wrapper);
+                    };
 
-                    // ✍️ Tekst
-                    if (item.type === "text/plain" || item.type === "text/html") {
-                        item.getAsString(function (text) {
-                            // Summernote filter blijft actief
-                            $(editor).summernote('pasteHTML', `<div>${text}</div>`);
-                        });
-                    }
+                    reader.readAsDataURL(file);
+                    return;
+                }
+
+                // 2️⃣ HTML?
+                const html = clipboardData.getData('text/html');
+                if (html) {
+                    e.preventDefault();
+                    $(editor).summernote('pasteHTML', `<div>${html}</div>`);
+                    return;
+                }
+
+                // 3️⃣ Plain text
+                const text = clipboardData.getData('text/plain');
+                if (text) {
+                    e.preventDefault();
+                    $(editor).summernote('pasteHTML', `<div>${$('<div>').text(text).html()}</div>`);
                 }
             }
         }
+
     });
 
         function showColumns() {
@@ -883,41 +889,47 @@
                     },
                     callbacks: {
                         onPaste: function (e) {
-                            e.preventDefault();
-
                             const clipboardData = (e.originalEvent || e).clipboardData;
-                            const items = clipboardData.items;
                             const editor = this;
 
-                            for (let i = 0; i < items.length; i++) {
-                                const item = items[i];
+                            // 1️⃣ Afbeelding?
+                            const imageItem = Array.from(clipboardData.items)
+                                .find(item => item.type.startsWith('image/'));
 
-                                // 📸 Afbeelding
-                                if (item.type.indexOf("image") !== -1) {
-                                    const file = item.getAsFile();
-                                    const reader = new FileReader();
+                            if (imageItem) {
+                                e.preventDefault();
 
-                                    reader.onload = function (event) {
-                                        // WRAP de image in een container
-                                        const wrapper = document.createElement('div');
-                                        wrapper.innerHTML = `<img src="${event.target.result}" />`;
+                                const file = imageItem.getAsFile();
+                                const reader = new FileReader();
 
-                                        $(editor).summernote('insertNode', wrapper);
-                                    };
+                                reader.onload = function (event) {
+                                    const wrapper = document.createElement('div');
+                                    wrapper.innerHTML = `<img src="${event.target.result}" />`;
 
-                                    reader.readAsDataURL(file);
-                                }
+                                    $(editor).summernote('insertNode', wrapper);
+                                };
 
-                                // ✍️ Tekst
-                                if (item.type === "text/plain" || item.type === "text/html") {
-                                    item.getAsString(function (text) {
-                                        // Summernote filter blijft actief
-                                        $(editor).summernote('pasteHTML', `<div>${text}</div>`);
-                                    });
-                                }
+                                reader.readAsDataURL(file);
+                                return;
+                            }
+
+                            // 2️⃣ HTML?
+                            const html = clipboardData.getData('text/html');
+                            if (html) {
+                                e.preventDefault();
+                                $(editor).summernote('pasteHTML', `<div>${html}</div>`);
+                                return;
+                            }
+
+                            // 3️⃣ Plain text
+                            const text = clipboardData.getData('text/plain');
+                            if (text) {
+                                e.preventDefault();
+                                $(editor).summernote('pasteHTML', `<div>${$('<div>').text(text).html()}</div>`);
                             }
                         }
                     }
+
                 });
             } else if (selectedBlockItem === 'afbeelding-block-item') {
 
@@ -1279,43 +1291,49 @@
                             ['custom', ['imageAttributes']],
                         ],
                     },
-                    callbacks: {
+                    callbacallbacks: {
                         onPaste: function (e) {
-                            e.preventDefault();
-
                             const clipboardData = (e.originalEvent || e).clipboardData;
-                            const items = clipboardData.items;
                             const editor = this;
 
-                            for (let i = 0; i < items.length; i++) {
-                                const item = items[i];
+                            // 1️⃣ Afbeelding?
+                            const imageItem = Array.from(clipboardData.items)
+                                .find(item => item.type.startsWith('image/'));
 
-                                // 📸 Afbeelding
-                                if (item.type.indexOf("image") !== -1) {
-                                    const file = item.getAsFile();
-                                    const reader = new FileReader();
+                            if (imageItem) {
+                                e.preventDefault();
 
-                                    reader.onload = function (event) {
-                                        // WRAP de image in een container
-                                        const wrapper = document.createElement('div');
-                                        wrapper.innerHTML = `<img src="${event.target.result}" />`;
+                                const file = imageItem.getAsFile();
+                                const reader = new FileReader();
 
-                                        $(editor).summernote('insertNode', wrapper);
-                                    };
+                                reader.onload = function (event) {
+                                    const wrapper = document.createElement('div');
+                                    wrapper.innerHTML = `<img src="${event.target.result}" />`;
 
-                                    reader.readAsDataURL(file);
-                                }
+                                    $(editor).summernote('insertNode', wrapper);
+                                };
 
-                                // ✍️ Tekst
-                                if (item.type === "text/plain" || item.type === "text/html") {
-                                    item.getAsString(function (text) {
-                                        // Summernote filter blijft actief
-                                        $(editor).summernote('pasteHTML', `<div>${text}</div>`);
-                                    });
-                                }
+                                reader.readAsDataURL(file);
+                                return;
+                            }
+
+                            // 2️⃣ HTML?
+                            const html = clipboardData.getData('text/html');
+                            if (html) {
+                                e.preventDefault();
+                                $(editor).summernote('pasteHTML', `<div>${html}</div>`);
+                                return;
+                            }
+
+                            // 3️⃣ Plain text
+                            const text = clipboardData.getData('text/plain');
+                            if (text) {
+                                e.preventDefault();
+                                $(editor).summernote('pasteHTML', `<div>${$('<div>').text(text).html()}</div>`);
                             }
                         }
                     }
+
                 });
 
 
