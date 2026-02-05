@@ -177,6 +177,7 @@ class PageBlockController extends Component
 
 
     public function storeContact() {
+
         $this->validate($this->contactRules());
 
         // Mail verzenden
