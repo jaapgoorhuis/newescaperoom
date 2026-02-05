@@ -1150,7 +1150,7 @@
                         }
                     });
                 }
-                // location.reload();
+                location.reload();
             }
         }
 
