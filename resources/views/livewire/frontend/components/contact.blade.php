@@ -19,7 +19,8 @@
         <textarea wire:model="bericht_contact" class="form-control contact-form" placeholder="Bericht *" id="validationCustom05" required></textarea>
     </div>
 
-    <div id="succes-alert" class="hidden contact-alert alert alert-success alert-dismissible fade show" role="alert">
+    <div id="succes-alert" class="d-none contact-alert alert alert-success alert-dismissible fade show" role="alert">
+
         Het contactformulier is succesvol verstuurd! Wij nemen zo snel mogelijk contact met u op.
         <button type="button" class="btn-close btn-close-alert-succes" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -46,44 +47,75 @@
         'use strict';
         const form = document.getElementById('contact-form');
 
+        // Let op: geen event.preventDefault() op submit, Livewire submit blijft werken
         form.addEventListener('submit', event => {
-            event.preventDefault();
 
-            // Bootstrap frontend validation
+            // Bootstrap frontend validatie
             if (!form.checkValidity()) {
                 form.classList.add('was-validated');
+                event.preventDefault(); // Alleen voorkomen als validatie faalt
                 return;
             }
 
-            // Haal captcha token
+            // Google reCAPTCHA ophalen
             const captchaResponse = grecaptcha.getResponse();
             if (captchaResponse.length === 0) {
                 jQuery('#captcha-error').show();
                 form.classList.add('was-validated');
+                event.preventDefault(); // blokkeren omdat captcha niet ingevuld
                 return;
             } else {
                 jQuery('#captcha-error').hide();
             }
 
-            // Zet token in hidden input zodat Livewire dit oppikt
+            // Captcha naar hidden input sturen voor Livewire
             const input = document.getElementById('captcha');
             input.value = captchaResponse;
             input.dispatchEvent(new Event('input', { bubbles: true }));
 
-            // Submit wordt automatisch door Livewire afgehandeld via wire:submit.prevent
+            // Success alert & reset pas uitvoeren via Livewire event
+            // Livewire moet dan dispatchBrowserEvent('contactFormSuccess') doen
         });
 
-        // Reset formulier bij succes via Livewire event
+        // Frontend success event listener
         window.addEventListener('contactFormSuccess', () => {
-            jQuery('.contact-alert').removeClass('hidden');
-            form.reset();
+            jQuery('#succes-alert').removeClass('d-none');
             form.classList.remove('was-validated');
+
+            // Velden leegmaken
+            const fields = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
+            fields.forEach(el => {
+                el.value = '';
+                el.dispatchEvent(new Event('input', { bubbles: true })); // Livewire update
+            });
+
+            // captcha reset
             grecaptcha.reset();
+            const captchaInput = document.getElementById('captcha');
+            captchaInput.value = '';
+            captchaInput.dispatchEvent(new Event('input', { bubbles: true }));
         });
 
-        // Toon captcha error als Livewire dat doorgeeft
+        // Captcha error
         window.addEventListener('captchaError', () => {
             jQuery('#captcha-error').show();
         });
     })();
+
+    window.addEventListener('contactFormSuccess', () => {
+        jQuery('#succes-alert').removeClass('d-none');
+
+        // Velden zijn al leeg door Livewire reset, bootstrap validatie resetten
+        form.classList.remove('was-validated');
+
+        // captcha reset
+        grecaptcha.reset();
+    });
+
+    // Als je een aparte captchaReset wilt
+    window.addEventListener('captchaReset', () => {
+        grecaptcha.reset();
+    });
+
+
 </script>

@@ -190,11 +190,13 @@ class PageBlockController extends Component
         ];
 
         Mail::to(env('MAIL_TO_ADDRESS'))->send(new Contact($array));
+        $this->dispatch('contactFormSuccess');
 
-        $this->dispatch('resetForm');
+        // Trigger captcha reset (optioneel, kan ook in JS samen met success)
+        $this->dispatch('captchaReset');
 
-        // reset reCAPTCHA in frontend
-        $this->dispatch('resetCaptcha');
+        // Optioneel: reset Livewire properties
+
     }
 
     public function updateOrder($list) {
