@@ -1181,7 +1181,7 @@
                         }
                     });
                 }
-                location.reload();
+                // location.reload();
             }
         }
 
