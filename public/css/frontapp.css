@@ -60,15 +60,27 @@ p {
 }
 
 
+
+
 @media(max-width: 992px) {
     h2 {
-        font-size: 28px !important;
+        font-size: 26px !important;
         line-height: 46px !important;
+    }
+
+    h3 {
+        font-size: 22px !important;
+
+        line-height: 20px !important;
     }
 
     p {
         font-size: 14px !important;
     }
+    .reservation-button {
+        width:100%;
+    }
+
 }
 .home-slider {
     height: 775px;
@@ -750,5 +762,21 @@ input.form-control.modal-formfield.form-control.modal-formfield-color {
 
 input.form-control.modal-formfield {
     color: black;
+}
+
+
+.note-editable,
+.note-codable {
+    pointer-events: auto !important;
+}
+.modal  {
+    z-index: 9999;
+}
+
+
+.btn.btn-primary {
+    background: #4d3631 !important;
+    color: white !important;
+    border: none !important;
 }
 
