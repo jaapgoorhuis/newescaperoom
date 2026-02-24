@@ -192,6 +192,15 @@
                                                     'blockIndex' => $blockIndex
                                                 ])
 
+                                            @elseif($block['type'] === 'cadeaubon')
+
+                                                @include('livewire.frontend.pagebuilder.blocks.cadeaubonnen', [
+                                                    'block' => $block,
+                                                    'rowIndex' => $rowIndex,
+                                                    'colIndex' => $colIndex,
+                                                    'blockIndex' => $blockIndex
+                                                ])
+
                                                 @endif
                                             @auth
                                                 <button class="btn btn-sm btn-danger mt-2"
