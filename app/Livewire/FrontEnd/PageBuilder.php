@@ -59,7 +59,15 @@ class PageBuilder extends Component
     {
         $this->slug = $slug;
         $this->page = Page::where('route', $slug)->first();
-        $this->loadRows();
+        if(!$this->page) {
+
+            return view('livewire.frontend.notfound.notfound');
+
+        } else {
+
+            $this->loadRows();
+        }
+
     }
 
     // ---------------- Slider ----------------
@@ -839,6 +847,10 @@ class PageBuilder extends Component
 
     public function render()
     {
-        return view('livewire.frontend.pagebuilder.pagebuilder');
+        if($this->page) {
+            return view('livewire.frontend.pagebuilder.pagebuilder');
+        } else {
+            return view('livewire.frontend.notfound.notfound');
+        }
     }
 }
