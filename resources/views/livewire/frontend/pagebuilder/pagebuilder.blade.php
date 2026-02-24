@@ -140,7 +140,7 @@
                                                                         : "bottom: $captionBottom;";
                                                                 @endphp
 
-                                                                <div class="carousel-caption d-flex align-items-center justify-content-center text-center">
+                                                                <div class="carousel-caption align-items-center justify-content-center text-center">
                                                                     {!! $slide['text'] !!}
                                                                 </div>
                                                             </div>
