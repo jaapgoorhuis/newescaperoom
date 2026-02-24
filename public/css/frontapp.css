@@ -701,7 +701,7 @@ a.dropdown-item.active {
     }
 
     .carousel-caption.d-md-block {
-        bottom:0% !important;
+        bottom:15% !important;
     }
 }
 
