@@ -11,12 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('filter', function (Blueprint $table) {
+        Schema::create('slider_items', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
-            $table->integer('order_id')->nullable();
+            $table->foreignId('block_id')
+                ->constrained('blocks')
+                ->cascadeOnDelete(); // cascade delete
+            $table->longText('text')->nullable();
+            $table->longText('image')->nullable();
+            $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
+
     }
 
     /**
@@ -24,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('filter');
+        Schema::dropIfExists('slider_items');
     }
 };

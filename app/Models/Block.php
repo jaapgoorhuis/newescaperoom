@@ -14,19 +14,24 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Points extends Model implements HasMedia
+class Block extends Model
 {
-    use HasFactory, Notifiable, InteractsWithMedia;
+    use HasFactory;
 
+    protected $fillable = ['column_id', 'type', 'content', 'style'];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $table = 'points';
-
-    protected $fillable = [
-        'title',
+    protected $casts = [
+        'content' => 'array',
+        'style' => 'array',
     ];
+
+    public function column()
+    {
+        return $this->belongsTo(Column::class);
+    }
+    public function sliderItems()
+    {
+        return $this->hasMany(SliderItem::class)->orderBy('sort_order');
+    }
+
 }

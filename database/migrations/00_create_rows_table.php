@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('filter_value', function (Blueprint $table) {
+        Schema::create('rows', function (Blueprint $table) {
             $table->id();
-            $table->string('filter_id')->nullable();
-            $table->string('title')->nullable();
-            $table->integer('order_id')->nullable();
+            $table->unsignedBigInteger('page_id');
+            $table->json('style')->nullable();
+            $table->string('container_type')->default('container');
+            $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('filter_value');
+        Schema::dropIfExists('rows');
     }
 };

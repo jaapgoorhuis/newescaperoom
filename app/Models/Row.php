@@ -7,7 +7,6 @@ use App\Output\Concerns\InteractsWithSymbols;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia;
@@ -15,28 +14,18 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Magazine extends Model implements HasMedia
+class Row extends Model
 {
-    use InteractsWithMedia;
-    use HasFactory, Notifiable;
+    use HasFactory;
 
+    protected $fillable = ['page_id', 'style', 'sort_order','container_type'];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $table = 'magazine';
-
-    protected $fillable = [
-        'text',
-        'order_id',
+    protected $casts = [
+        'style' => 'array',
     ];
 
-    public function registerMediaConversions(?Media $media = null): void
+    public function columns()
     {
-        $this
-            ->addMediaConversion('magazine')
-            ->nonQueued();
+        return $this->hasMany(Column::class);
     }
 }

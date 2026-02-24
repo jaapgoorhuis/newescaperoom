@@ -646,3 +646,102 @@ a.dropdown-item:hover {
 a.dropdown-item.active {
     background: #9a7067 !important;
 }
+
+.carousel-caption {
+    transform: translateY(-50%);
+    padding:0px !important;
+}
+
+.slider-block {
+    width: 100%;
+    overflow: hidden;
+    max-height: 500px; /* fallback */
+}
+
+.slider-block .carousel-inner,
+.slider-block .carousel-item {
+    height: 500px;
+    max-height: inherit;
+}
+
+.slider-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Responsive optimalisatie */
+@media (max-width: 768px) {
+    .slider-block {
+        max-height: 300px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .slider-block {
+        max-height: 500px !important;
+    }
+}
+
+
+.slider-block {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    max-height: 500px;
+}
+
+.slider-block .carousel-item {
+    height: 100%;
+    max-height: inherit;
+    position: relative;
+}
+
+.slider-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Overlay */
+.slider-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* zodat slider interactief blijft */
+}
+
+/* Carousel caption blijft boven overlay */
+.slider-block .carousel-caption {
+    position: absolute;
+    z-index: 2;
+    right: auto !important;
+}
+
+input.form-control {
+    background: transparent;
+    color:white;
+}
+
+textarea.form-control {
+    background: transparent;
+    color:white;
+}
+.admin-buttons {
+    position: fixed;
+    z-index: 9999;
+    background: white;
+    padding: 10px;
+}
+
+span.row-handle {
+    color: red;
+    font-size: 30px;
+}
+.note-editor, .pcr-app {
+    z-index: 11000 !important; /* boven alle fixed elementen */
+}
+
+

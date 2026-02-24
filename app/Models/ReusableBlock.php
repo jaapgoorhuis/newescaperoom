@@ -14,29 +14,30 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class PageBlock extends Model implements HasMedia
+class ReusableBlock extends Model
 {
-    use HasFactory, Notifiable, InteractsWithMedia;
-
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $table = 'page_blocks';
+    use HasFactory;
 
     protected $fillable = [
-        'value',
-        'order_id',
-        'page_id',
-        'block_id',
+        'type',
+        'content',
+        'style',
+        'sliderItems',
     ];
 
-    public function registerMediaConversions(?Media $media = null): void
+    protected $casts = [
+        'style' => 'array',
+        'sliderItems' => 'array',
+    ];
+
+    public function isSlider(): bool
     {
-        $this->addMediaCollection('files')
-            // ->singleFile()
-            ->acceptsMimeTypes(['image/jpg', 'image/jpeg', 'image/png', 'image/gif']);
+        return $this->type === 'slider';
     }
+
+    public function getSliderItemsCollection()
+    {
+        return collect($this->sliderItems ?? []);
+    }
+
 }

@@ -451,7 +451,7 @@ CREATE TABLE `pages` (
 
 LOCK TABLES `pages` WRITE;
 /*!40000 ALTER TABLE `pages` DISABLE KEYS */;
-INSERT INTO `pages` VALUES (1,'Homepagina','index','index',1,1,1,NULL,1,1,NULL,NULL,'2025-04-02 09:14:11','2025-04-02 09:14:11'),(4,'Offerte','offerte-aanvragen','configurator',1,1,1,NULL,1,1,NULL,NULL,'2025-04-03 10:34:58','2025-04-03 10:40:28'),(6,'Contact','contact','index',1,1,1,NULL,1,1,NULL,NULL,'2025-04-29 15:48:18','2025-04-29 15:48:18'),(8,'Algemene voorwaarden','voorwaarden','index',1,1,1,NULL,1,1,NULL,NULL,'2025-05-01 11:06:24','2025-05-01 11:06:24'),(9,'Privacy verklaring','privacyverklaring','index',1,1,1,NULL,1,1,NULL,NULL,'2025-05-01 11:06:40','2025-05-01 11:06:40'),(10,'Over ons','over-ons','index',1,1,1,NULL,1,1,NULL,NULL,'2025-05-01 11:07:13','2025-05-01 11:07:13');
+INSERT INTO `pages` VALUES (1,'Homepagina','pagebuilder','pagebuilder',1,1,1,NULL,1,1,NULL,NULL,'2025-04-02 09:14:11','2025-04-02 09:14:11'),(4,'Offerte','offerte-aanvragen','configurator',1,1,1,NULL,1,1,NULL,NULL,'2025-04-03 10:34:58','2025-04-03 10:40:28'),(6,'Contact','contact','pagebuilder',1,1,1,NULL,1,1,NULL,NULL,'2025-04-29 15:48:18','2025-04-29 15:48:18'),(8,'Algemene voorwaarden','voorwaarden','pagebuilder',1,1,1,NULL,1,1,NULL,NULL,'2025-05-01 11:06:24','2025-05-01 11:06:24'),(9,'Privacy verklaring','privacyverklaring','pagebuilder',1,1,1,NULL,1,1,NULL,NULL,'2025-05-01 11:06:40','2025-05-01 11:06:40'),(10,'Over ons','over-ons','pagebuilder',1,1,1,NULL,1,1,NULL,NULL,'2025-05-01 11:07:13','2025-05-01 11:07:13');
 /*!40000 ALTER TABLE `pages` ENABLE KEYS */;
 UNLOCK TABLES;
 

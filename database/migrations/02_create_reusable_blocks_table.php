@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('magazine', function (Blueprint $table) {
+        Schema::create('reusable_blocks', function (Blueprint $table) {
             $table->id();
-            $table->longText('text')->nullable();
+            $table->string('type');
+            $table->longText('content')->nullable();
+            $table->json('style')->nullable();
+            $table->json('sliderItems')->nullable(); // voor slider blocks
             $table->timestamps();
         });
     }
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('magazine');
+        Schema::dropIfExists('reusable_blocks');
     }
 };

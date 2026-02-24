@@ -17,7 +17,7 @@ class PageSeeder extends Seeder
             [
                 'title' => 'Home pagina',
                 'route' => 'index',
-                'page_type' => 'index',
+                'page_type' => 'pagebuilder',
                 'is_removable' => 0,
                 'is_visible' => 1,
                 'is_active' => 1,
@@ -25,7 +25,7 @@ class PageSeeder extends Seeder
             [
                 'title' => 'Offerte aanvragen',
                 'route' => 'offerte-aanvragen',
-                'page_type' => 'index',
+                'page_type' => 'pagebuilder',
                 'is_removable' => 0,
                 'is_visible' => 1,
                 'is_active' => 1,

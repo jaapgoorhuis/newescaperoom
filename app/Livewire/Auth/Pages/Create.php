@@ -18,7 +18,7 @@ class Create extends Component
     public $page;
     public $title;
     public $route;
-    public $page_type = 'index';
+    public $page_type = 'pagebuilder';
     public $is_removable = '1';
     public $is_active = '1';
     public $header_image;

@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('color_filter_value', function (Blueprint $table) {
+        Schema::create('columns', function (Blueprint $table) {
             $table->id();
-            $table->integer('filter_value_id')->nullable();
-            $table->integer('color_id')->nullable();
+            $table->unsignedBigInteger('row_id');
+            $table->string('bootstrap_class')->default('col-12');
+            $table->json('style')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('color_filter_value');
+        Schema::dropIfExists('columns');
     }
 };

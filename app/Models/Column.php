@@ -14,23 +14,23 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class ColorFilterValue extends Model implements HasMedia
+class Column extends Model
 {
-    use HasFactory, Notifiable, InteractsWithMedia;
+    use HasFactory;
 
+    protected $fillable = ['row_id', 'bootstrap_class', 'style'];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $table = 'color_filter_value';
-
-    protected $fillable = [
-        'filter_value_id',
-        'color_id',
+    protected $casts = [
+        'style' => 'array',
     ];
 
+    public function blocks()
+    {
+        return $this->hasMany(Block::class);
+    }
 
-
+    public function row()
+    {
+        return $this->belongsTo(Row::class);
+    }
 }
