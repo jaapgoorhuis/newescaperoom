@@ -697,7 +697,11 @@ a.dropdown-item.active {
 
 @media (max-width: 576px) {
     .slider-block {
-        max-height: 500px !important;
+        max-height: 350px !important;
+    }
+
+    .carousel-caption.d-md-block {
+        bottom:0% !important;
     }
 }
 
