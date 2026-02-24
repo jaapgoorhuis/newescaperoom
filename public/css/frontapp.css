@@ -116,6 +116,12 @@ button.btn.btn-primary {
     border: none;
 }
 
+a.btn.btn-primary.reservation-button {
+    background:#4d3631 !important;
+    color: white !important;
+    border: none !important;
+}
+
 .col-12.points-box {
     background: #1D140C;
     color: white;
