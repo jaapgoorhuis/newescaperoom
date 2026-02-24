@@ -43,10 +43,10 @@
             </div>
             <div class="modal-body">
                 <label>Achtergrond kleur:</label>
-                <input type="color" class="form-control form-control-color" wire:model="editingRow.style.background-color">
+                <input type="color" class="form-control modal-formfield form-control modal-formfield-color" wire:model="editingRow.style.background-color">
 
                 <label class="mt-2">Padding:</label>
-                <input type="number" class="form-control" wire:model="editingRow.style.padding">
+                <input type="number" class="form-control modal-formfield" wire:model="editingRow.style.padding">
 
                 <label class="mt-2">Container type:</label>
                 <select class="form-select" wire:model="editingRow.container_type">
@@ -58,19 +58,19 @@
                 <div class="row g-2">
                     <div class="col">
                         Boven
-                        <input type="number" class="form-control" placeholder="Top" wire:model.defer="editingRow.style.margin_top">
+                        <input type="number" class="form-control modal-formfield" placeholder="Top" wire:model.defer="editingRow.style.margin_top">
                     </div>
                     <div class="col">
                         Beneden
-                        <input type="number" class="form-control" placeholder="Bottom" wire:model.defer="editingRow.style.margin_bottom">
+                        <input type="number" class="form-control modal-formfield" placeholder="Bottom" wire:model.defer="editingRow.style.margin_bottom">
                     </div>
                     <div class="col">
                         Links
-                        <input type="number" class="form-control" placeholder="Left" wire:model.defer="editingRow.style.margin_left">
+                        <input type="number" class="form-control modal-formfield" placeholder="Left" wire:model.defer="editingRow.style.margin_left">
                     </div>
                     <div class="col">
                         Rechts
-                        <input type="number" class="form-control" placeholder="Right" wire:model.defer="editingRow.style.margin_right">
+                        <input type="number" class="form-control modal-formfield" placeholder="Right" wire:model.defer="editingRow.style.margin_right">
                     </div>
                 </div>
 
@@ -99,19 +99,19 @@
                     <div class="row g-2">
                         <div class="col">
                             Boven
-                            <input type="number" class="form-control" placeholder="Boven" wire:model.defer="editingColumn.style.margin_top">
+                            <input type="number" class="form-control modal-formfield" placeholder="Boven" wire:model.defer="editingColumn.style.margin_top">
                         </div>
                         <div class="col">
                             Beneden
-                            <input type="number" class="form-control" placeholder="Beneden" wire:model.defer="editingColumn.style.margin_bottom">
+                            <input type="number" class="form-control modal-formfield" placeholder="Beneden" wire:model.defer="editingColumn.style.margin_bottom">
                         </div>
                         <div class="col">
                             Links
-                            <input type="number" class="form-control" placeholder="links" wire:model.defer="editingColumn.style.margin_left">
+                            <input type="number" class="form-control modal-formfield" placeholder="links" wire:model.defer="editingColumn.style.margin_left">
                         </div>
                         <div class="col">
                             Rechts
-                            <input type="number" class="form-control" placeholder="rechts" wire:model.defer="editingColumn.style.margin_right">
+                            <input type="number" class="form-control modal-formfield" placeholder="rechts" wire:model.defer="editingColumn.style.margin_right">
                         </div>
                     </div>
                 </div>
@@ -121,31 +121,31 @@
                     <div class="row g-2">
                         <div class="col">
                             Boven
-                            <input type="number" class="form-control" placeholder="Boven" wire:model.defer="editingColumn.style.padding_top">
+                            <input type="number" class="form-control modal-formfield" placeholder="Boven" wire:model.defer="editingColumn.style.padding_top">
                         </div>
                         <div class="col">
                             Beneden
-                            <input type="number" class="form-control" placeholder="Beneden" wire:model.defer="editingColumn.style.padding_bottom">
+                            <input type="number" class="form-control modal-formfield" placeholder="Beneden" wire:model.defer="editingColumn.style.padding_bottom">
                         </div>
                         <div class="col">
                             Links
-                            <input type="number" class="form-control" placeholder="links" wire:model.defer="editingColumn.style.padding_left">
+                            <input type="number" class="form-control modal-formfield" placeholder="links" wire:model.defer="editingColumn.style.padding_left">
                         </div>
                         <div class="col">
                             Rechts
-                            <input type="number" class="form-control" placeholder="rechts" wire:model.defer="editingColumn.style.padding_right">
+                            <input type="number" class="form-control modal-formfield" placeholder="rechts" wire:model.defer="editingColumn.style.padding_right">
                         </div>
                     </div>
                 </div>
 
                 <div class="mb-2">
                     <label>Background kleur</label>
-                    <input type="color" class="form-control form-control-color" wire:model.defer="editingColumn.style.background-color">
+                    <input type="color" class="form-control modal-formfield form-control modal-formfield-color" wire:model.defer="editingColumn.style.background-color">
                 </div>
 
                 <div class="mb-2">
                     <label>Custom CSS</label>
-                    <textarea class="form-control" wire:model.defer="editingColumn.style.custom_css"></textarea>
+                    <textarea class="form-control modal-formfield" wire:model.defer="editingColumn.style.custom_css"></textarea>
                 </div>
 
             </div>
@@ -217,7 +217,7 @@
                         <!-- Alleen Summernote in wire:ignore -->
                         <div wire:ignore>
             <textarea
-                class="form-control summernote-slider"
+                class="form-control modal-formfield summernote-slider"
                 data-index="{{ $index }}"
             >{{ $item['text'] }}</textarea>
                         </div>
@@ -226,7 +226,7 @@
                         <div class="mb-2">
                             <label>Tekst hoogte (bijv: 20% of 80px)</label>
                             <input type="text"
-                                   class="form-control"
+                                   class="form-control modal-formfield"
                                    wire:model.lazy="sliderItems.{{ $index }}.caption_bottom">
                         </div>
 
@@ -238,7 +238,7 @@
                                 </div>
                                 <small class="text-muted">Huidige afbeelding. Kies een nieuw bestand om te vervangen.</small>
                             @endif
-                            <input type="file" wire:model="sliderItems.{{ $index }}.image" class="form-control">
+                            <input type="file" wire:model="sliderItems.{{ $index }}.image" class="form-control modal-formfield">
                         </div>
 
                         <div class="mb-3">
@@ -273,7 +273,7 @@
                     <input type="number"
                            min="150"
                            max="1200"
-                           class="form-control"
+                           class="form-control modal-formfield"
                            wire:model.defer="rows.{{ $editingSliderBlock['rowIndex'] ?? $addingSliderBlock['rowIndex'] }}.columns.{{ $editingSliderBlock['colIndex'] ?? $addingSliderBlock['colIndex'] }}.blocks.{{ $editingSliderBlock['blockIndex'] ?? 0 }}.style.max_height">
                     <small class="text-muted">
                         Aanbevolen: 400–600px
@@ -282,7 +282,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Custom CSS (slider)</label>
-                        <textarea class="form-control"
+                        <textarea class="form-control modal-formfield modal-formfield"
                                   rows="3"
                                   wire:model.defer="rows.{{ $editingSliderBlock['rowIndex'] ?? $addingSliderBlock['rowIndex'] }}.columns.{{ $editingSliderBlock['colIndex'] ?? $addingSliderBlock['colIndex'] }}.blocks.{{ $editingSliderBlock['blockIndex'] ?? 0 }}.style.custom_css">
                          </textarea>
@@ -313,23 +313,23 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label>Titel</label>
-                    <input type="text" class="form-control" wire:model.defer="editingContactBlock.title">
+                    <input type="text" class="form-control modal-formfield" wire:model.defer="editingContactBlock.title">
                 </div>
                 <div class="mb-3">
                     <label>Beschrijving</label>
-                    <textarea class="form-control" wire:model.defer="editingContactBlock.description"></textarea>
+                    <textarea class="form-control modal-formfield" wire:model.defer="editingContactBlock.description"></textarea>
                 </div>
                 <div class="mb-3">
                     <label>Email</label>
-                    <input type="email" class="form-control" wire:model.defer="editingContactBlock.email">
+                    <input type="email" class="form-control modal-formfield" wire:model.defer="editingContactBlock.email">
                 </div>
                 <div class="mb-3">
                     <label>Telefoon</label>
-                    <input type="text" class="form-control" wire:model.defer="editingContactBlock.phone">
+                    <input type="text" class="form-control modal-formfield" wire:model.defer="editingContactBlock.phone">
                 </div>
                 <div class="mb-3">
                     <label>Form Fields (JSON)</label>
-                    <textarea class="form-control" wire:model.defer="editingContactBlock.form_fields" rows="5"></textarea>
+                    <textarea class="form-control modal-formfield" wire:model.defer="editingContactBlock.form_fields" rows="5"></textarea>
                     <small class="text-muted">Voorbeeld: [{"label":"Naam","type":"text","placeholder":"Vul je naam in"}]</small>
                 </div>
             </div>

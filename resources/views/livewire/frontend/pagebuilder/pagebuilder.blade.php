@@ -217,26 +217,33 @@
         @if($page->show_footer)
             @include('livewire.frontend.components.footer') {{-- of waar je footer.blade.php staat --}}
         @endif
-</div>@push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+</div>
 
+@push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', ()=>{
+        document.addEventListener('DOMContentLoaded', () => {
 
-            // ---------------- Summernote ----------------
-            function initSummernote(el){
+            // ---------------- Summernote (tekstblokken) ----------------
+            function initSummernote(el) {
                 if(el.classList.contains('summernote-initialized')) return;
 
                 $(el).summernote({
                     height: 150,
                     codeviewFilter: false,
                     codeviewIframeFilter: false,
-                    callbacks:{
-                        onChange: function(contents){
-                            const rowIndex = parseInt(el.dataset.row);
-                            const colIndex = parseInt(el.dataset.col);
+                    toolbar: [
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['font', ['fontsize', 'fontname']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['insert', ['link', 'picture']],
+                        ['view', ['codeview']]
+                    ],
+                    fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','32','36','48','60','72','96'],
+                    callbacks: {
+                        onChange: function(contents) {
+                            const rowIndex   = parseInt(el.dataset.row);
+                            const colIndex   = parseInt(el.dataset.col);
                             const blockIndex = parseInt(el.dataset.block);
                             if(Number.isNaN(rowIndex) || Number.isNaN(colIndex) || Number.isNaN(blockIndex)) return;
                             Livewire.dispatch('updateBlockContent', { rowIndex, colIndex, blockIndex, contents });
@@ -247,14 +254,23 @@
                 el.classList.add('summernote-initialized');
             }
 
-
-            function initSummernoteSlider(el){
+            // ---------------- Summernote (slider) ----------------
+            function initSummernoteSlider(el) {
                 if(el.classList.contains('summernote-slider-initialized')) return;
 
                 $(el).summernote({
                     height: 150,
                     codeviewFilter: false,
                     codeviewIframeFilter: false,
+                    toolbar: [
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['font', ['fontsize', 'fontname']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['insert', ['link', 'picture']],
+                        ['view', ['codeview']]
+                    ],
+                    fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','32','36','48','60','72','96'],
                     callbacks: {
                         onChange: function(contents) {
                             const index = parseInt(el.dataset.index);
@@ -266,18 +282,12 @@
 
                 el.classList.add('summernote-slider-initialized');
             }
+            // ---------------- Pickr (kleurpicker sliders) ----------------
+            function initPickrForAllSlides() {
+                document.querySelectorAll('#add-slider-modal .overlay-color-picker-wrapper').forEach(wrapper => {
 
-            Livewire.hook('message.processed', () => {
-                document.querySelectorAll('textarea.summernote').forEach(initSummernote);
-                document.querySelectorAll('textarea.summernote-slider').forEach(initSummernoteSlider);
+                    if(wrapper.dataset.pickrInitialized) return;
 
-                // Zorg dat Pickr ook opnieuw wordt gekoppeld aan nieuwe slides
-                initPickrForAllSlides();
-            });
-
-            // ---------------- Pickr ----------------
-            function initPickrForAllSlides(){
-                document.querySelectorAll('#add-slider-modal .overlay-color-picker-wrapper').forEach(wrapper=>{
                     const pickerContainer = wrapper.querySelector('.overlay-color-picker');
                     const input = wrapper.querySelector('input[type=hidden]');
                     if(!pickerContainer || !input) return;
@@ -285,149 +295,135 @@
                     const pickr = Pickr.create({
                         el: pickerContainer,
                         theme: 'classic',
-                        default: input.value || 'rgba(61.8511962890625,36.93253545233832,2.4063303675586845,0.9)',
-                        showAlways: false, // alleen zichtbaar bij klik
+                        default: input.value || 'rgba(61,36,2,0.9)',
+                        showAlways: false,
                         components: {
                             preview: true,
                             opacity: true,
                             hue: true,
-                            interaction: {
-                                hex: true,
-                                rgba: true,
-                                input: true,
-                                clear: true,
-                                save: true
-                            }
+                            interaction: { hex:true, rgba:true, input:true, clear:true, save:true }
                         }
                     });
 
-                    // open picker bij klikken
                     pickerContainer.addEventListener('click', e => {
                         e.stopPropagation();
                         pickr.show();
                     });
 
-                    // bij Save: update Livewire, maar verberg pas daarna
                     pickr.on('save', color => {
                         const rgba = color.toRGBA();
                         const value = `rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3]})`;
-
                         input.value = value;
-                        input.dispatchEvent(new InputEvent('input', { bubbles: true }));
-
-                        pickr.hide(); // verberg pickr pas nadat Livewire update is afgehandeld
+                        input.dispatchEvent(new InputEvent('input',{ bubbles:true }));
+                        pickr.hide();
                     });
 
-                    // update input realtime zonder DOM impact
                     pickr.on('change', color => {
                         const rgba = color.toRGBA();
                         const value = `rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3]})`;
-
                         input.value = value;
-                        input.dispatchEvent(new InputEvent('input', { bubbles: true }));
+                        input.dispatchEvent(new InputEvent('input',{ bubbles:true }));
                     });
 
                     wrapper.dataset.pickrInitialized = true;
                     wrapper.pickrInstance = pickr;
                 });
             }
-            // ---------------- Modals ----------------
+
+            // ---------------- Sortable (blocks en rows) ----------------
+            function initSortableBlocks() {
+                document.querySelectorAll('.blocks-wrapper').forEach(wrapper => {
+                    if(wrapper.dataset.sortableInitialized) return;
+
+                    new Sortable(wrapper, {
+                        animation: 150,
+                        ghostClass: 'bg-warning',
+                        onEnd() {
+                            const rowIndex = parseInt(wrapper.dataset.row);
+                            const colIndex = parseInt(wrapper.dataset.col);
+                            const blockIds = Array.from(wrapper.children).map(el => el.dataset.blockId);
+                            Livewire.dispatch('reorderBlocks', { rowIndex, colIndex, blockIds });
+                        }
+                    });
+
+                    wrapper.dataset.sortableInitialized = true;
+                });
+            }
+
             window.addEventListener('show-modal', e => {
                 const modal = document.getElementById(e.detail.modal);
                 if(!modal) return;
+
                 bootstrap.Modal.getOrCreateInstance(modal).show();
                 modal.querySelectorAll('textarea.summernote-slider').forEach(initSummernoteSlider);
-
-                // init Pickr bij openen modal
                 initPickrForAllSlides();
             });
 
             window.addEventListener('add-slide-item', e => {
                 const modal = document.getElementById('add-slider-modal');
                 if(!modal) return;
-                modal.querySelectorAll('textarea.summernote-slider').forEach(initSummernoteSlider);
 
-                // init Pickr voor nieuwe slide
+                modal.querySelectorAll('textarea.summernote-slider').forEach(initSummernoteSlider);
                 initPickrForAllSlides();
             });
 
             window.addEventListener('close-modal', e => {
                 const modal = document.getElementById(e.detail.modal);
                 if(!modal) return;
+
                 const inst = bootstrap.Modal.getInstance(modal);
                 if(inst) inst.hide();
             });
 
-            // ---------------- Sortable ----------------
-
-
-            function initSortableBlocks(){
-                document.querySelectorAll('.blocks-wrapper').forEach(wrapper=>{
-                    if(wrapper.dataset.sortableInitialized) return;
-                    new Sortable(wrapper,{
-                        animation:150,
-                        ghostClass:'bg-warning',
-                        onEnd(){
-                            const rowIndex = parseInt(wrapper.dataset.row);
-                            const colIndex = parseInt(wrapper.dataset.col);
-                            const blockIds = Array.from(wrapper.children).map(el=>el.dataset.blockId);
-                            Livewire.dispatch('reorderBlocks', { rowIndex, colIndex, blockIds });
-                        }
-                    });
-                    wrapper.dataset.sortableInitialized = true;
-                });
-            }
-
-            function initSortableRows(){
+            function initSortableRows() {
                 const rowsWrapper = document.querySelector('.rows-wrapper');
                 if(!rowsWrapper || rowsWrapper.dataset.sortableRowsInitialized) return;
+
                 new Sortable(rowsWrapper, {
                     animation: 150,
                     handle: '.row-handle',
                     ghostClass: 'bg-primary',
-                    onEnd(){
-                        const rowIds = Array.from(rowsWrapper.querySelectorAll('[data-row-id]')).map(el=>el.dataset.rowId);
+                    onEnd() {
+                        const rowIds = Array.from(rowsWrapper.querySelectorAll('[data-row-id]')).map(el => el.dataset.rowId);
                         Livewire.dispatch('reorderRows', { rowIds });
                     }
                 });
+
                 rowsWrapper.dataset.sortableRowsInitialized = true;
             }
 
-            // ---------------- Text block edit toggle ----------------
-            document.body.addEventListener('click', function(e){
+            // ---------------- Text block open/close ----------------
+            document.body.addEventListener('click', e => {
 
                 // Open editor
-                if(e.target.closest('.edit-text-block')){
-                    const blockWrapper = e.target.closest('.block-text-wrapper');
+                const editBtn = e.target.closest('.edit-text-block');
+                if(editBtn) {
+                    const blockWrapper = editBtn.closest('.block-text-wrapper');
                     const wrapper = blockWrapper.querySelector('.summernote-wrapper');
                     const textarea = wrapper.querySelector('textarea.summernote');
 
-                    // push undo state
                     Livewire.dispatch('beginTextEdit');
 
                     blockWrapper.querySelector('.block-text').classList.add('d-none');
                     wrapper.classList.remove('d-none');
 
-                    // destroy als al init
-                    if($(textarea).data('summernote')){
+                    if($(textarea).data('summernote')) {
                         $(textarea).summernote('destroy');
                         textarea.classList.remove('summernote-initialized');
                     }
 
-                    // ⚡ init nu Summernote terwijl wrapper zichtbaar is
                     initSummernote(textarea);
-
-                    // focus en selecteer alles
                     $(textarea).summernote('focus');
                 }
 
                 // Close editor
-                if(e.target.closest('.cancel-text-block')){
-                    const wrapper = e.target.closest('.summernote-wrapper');
+                const cancelBtn = e.target.closest('.cancel-text-block');
+                if(cancelBtn) {
+                    const wrapper = cancelBtn.closest('.summernote-wrapper');
                     const blockWrapper = wrapper.closest('.block-text-wrapper');
                     const textarea = wrapper.querySelector('textarea.summernote');
 
-                    if($(textarea).data('summernote')){
+                    if($(textarea).data('summernote')) {
                         $(textarea).summernote('destroy');
                         textarea.classList.remove('summernote-initialized');
                     }
@@ -435,15 +431,23 @@
                     wrapper.classList.add('d-none');
                     blockWrapper.querySelector('.block-text').classList.remove('d-none');
                 }
-
             });
 
+            // ---------------- Livewire hook ----------------
+            Livewire.hook('message.processed', () => {
+                initPickrForAllSlides();
+                initSortableBlocks();
+                initSortableRows();
 
+                // slider textareas altijd initialiseren
+                document.querySelectorAll('textarea.summernote-slider').forEach(initSummernoteSlider);
+            });
 
+            // ---------------- Init ----------------
             initSortableBlocks();
             initSortableRows();
+            initPickrForAllSlides();
+
         });
     </script>
 @endpush
-
-

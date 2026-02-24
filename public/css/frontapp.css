@@ -744,4 +744,11 @@ span.row-handle {
     z-index: 11000 !important; /* boven alle fixed elementen */
 }
 
+input.form-control.modal-formfield.form-control.modal-formfield-color {
+    width: 50px;
+}
+
+input.form-control.modal-formfield {
+    color: black;
+}
 

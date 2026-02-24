@@ -69,7 +69,7 @@ route::get('contactForm', function() {
     return view('livewire.frontend.components.contact');
 });
 
-route::get('{slug?}', \App\Livewire\FrontEnd\Pagebuilder::class);
+route::get('{slug?}', \App\Livewire\FrontEnd\PageBuilder::class);
 
 
 
