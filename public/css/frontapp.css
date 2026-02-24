@@ -624,7 +624,7 @@ button.navbar-toggler {
 }
 @media(max-width: 1550px) {
     a.nav-link {
-        font-size: 13px;
+        font-size: 16px;
 
     }
 }
