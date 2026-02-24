@@ -3,7 +3,7 @@
 
     <form wire:submit.prevent="submitContactForm({{ $rowIndex }}, {{ $colIndex }}, {{ $blockIndex }})">
         <div class="row mb-2">
-            <div class="col-12">
+            <div class="col-12 col-md-6">
                 <label>Voornaam *</label>
                 <input type="text"
                        class="form-control @error('contactForm.'. $rowIndex .'.'. $colIndex .'.'. $blockIndex .'.voornaam') is-invalid @enderror"
@@ -13,7 +13,7 @@
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-            <div class="col-12">
+            <div class="col-12 col-md-6">
                 <label>Achternaam *</label>
                 <input type="text"
                        class="form-control @error('contactForm.'. $rowIndex .'.'. $colIndex .'.'. $blockIndex .'.achternaam') is-invalid @enderror"
@@ -26,7 +26,7 @@
         </div>
 
         <div class="row mb-2">
-            <div class="col-12">
+            <div class="col-12 col-md-6">
                 <label>Telefoonnummer</label>
                 <input type="text"
                        class="form-control @error('contactForm.'. $rowIndex .'.'. $colIndex .'.'. $blockIndex .'.telefoon') is-invalid @enderror"
@@ -36,7 +36,7 @@
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-            <div class="col-12">
+            <div class="col-12 col-md-6">
                 <label>Email *</label>
                 <input type="email"
                        class="form-control @error('contactForm.'. $rowIndex .'.'. $colIndex .'.'. $blockIndex .'.email') is-invalid @enderror"
