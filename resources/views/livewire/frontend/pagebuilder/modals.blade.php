@@ -223,12 +223,12 @@
                         </div>
 
                         <!-- Caption bottom, overlay, image uploader, etc staan buiten wire:ignore -->
-                        <div class="mb-2">
-                            <label>Tekst hoogte (bijv: 20% of 80px)</label>
-                            <input type="text"
-                                   class="form-control modal-formfield"
-                                   wire:model.lazy="sliderItems.{{ $index }}.caption_bottom">
-                        </div>
+{{--                        <div class="mb-2">--}}
+{{--                            <label>Tekst hoogte (bijv: 20% of 80px)</label>--}}
+{{--                            <input type="text"--}}
+{{--                                   class="form-control modal-formfield"--}}
+{{--                                   wire:model.lazy="sliderItems.{{ $index }}.caption_bottom">--}}
+{{--                        </div>--}}
 
                         <div class="mb-2">
                             <label>Slide afbeelding</label>
