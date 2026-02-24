@@ -786,3 +786,7 @@ input.form-control.modal-formfield {
     border: none !important;
 }
 
+.carousel-caption.d-md-block {
+    text-align: center !important;
+    left: 50%;
+}
