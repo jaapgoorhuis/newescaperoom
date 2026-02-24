@@ -700,14 +700,11 @@ a.dropdown-item.active {
         max-height: 350px !important;
     }
 
-    .carousel-caption.d-md-block {
-        bottom:30% !important;
-    }
-
     h1 {
         font-size:38px !important;
     }
 }
+
 
 
 .slider-block {
@@ -743,7 +740,6 @@ a.dropdown-item.active {
 .slider-block .carousel-caption {
     position: absolute;
     z-index: 2;
-    right: auto !important;
 }
 
 input.form-control {
@@ -794,8 +790,9 @@ input.form-control.modal-formfield {
     border: none !important;
 }
 
-.carousel-caption.d-md-block {
-    text-align: center !important;
-    left: 0;
-    width:100%;
+
+.carousel-caption {
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
 }
