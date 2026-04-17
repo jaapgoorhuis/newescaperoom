@@ -27,7 +27,7 @@ class PageBuilder extends Component
     public array $editingRow = [];
     public array $imageUploads = [];
     public array $contactForm = [];
-    public array $availableBlockTypes = ['text', 'image', 'slider', 'contact','maps','reserveren','cadeaubon'];
+    public array $availableBlockTypes = ['text', 'image', 'slider', 'contact','maps','reserveren','cadeaubon','escapekist'];
 
     public array $contactBlocks = [];
 

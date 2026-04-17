@@ -1,14 +1,9 @@
-<div class="reserveren-block" wire:ignore>
+<div id="oa_widget" class="widget-js"></div>
 
-    <!-- Widget container -->
-    <div id="oa_widget" class="widget-js"></div>
-
-    <!-- Fallback -->
-    <div id="booking-fallback" style="display:none; color:white;">
-        Om te reserveren moet je de cookies accepteren. Klik links onderin op het cookiebot icoontje om de cookie instellingen aan te passen.
-    </div> 
-
+<div id="booking-fallback" style="display:none; color:white;">
+    Om te reserveren moet je de cookies accepteren. Klik links onderin op het cookiebot icoontje om de cookie instellingen aan te passen.
 </div>
+
 
 <script>
 function loadBookingWidget() {
