@@ -4,7 +4,11 @@
     Om te reserveren moet je de cookies accepteren. Klik links onderin op het cookiebot icoontje om de cookie instellingen aan te passen.
 </div>
 
-
+<style>
+    .text-warning {
+        color: white !important;
+    }
+</style>
 <script>
 function loadBookingWidget() {
     // voorkom dubbel laden
