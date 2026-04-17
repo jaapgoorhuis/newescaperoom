@@ -192,6 +192,17 @@
                                                     'blockIndex' => $blockIndex
                                                 ])
 
+
+
+                                            @elseif($block['type'] === 'escapekist')
+
+                                                @include('livewire.frontend.pagebuilder.blocks.escapekist', [
+                                                    'block' => $block,
+                                                    'rowIndex' => $rowIndex,
+                                                    'colIndex' => $colIndex,
+                                                    'blockIndex' => $blockIndex
+                                                ])
+
                                             @elseif($block['type'] === 'cadeaubon')
 
                                                 @include('livewire.frontend.pagebuilder.blocks.cadeaubonnen', [
